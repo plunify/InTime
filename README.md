@@ -25,7 +25,9 @@ flow run_recipe "hot_start"
 ```
 Refer to this page for more information on how to edit the flow - [https://docs.plunify.com/intime/flow_properties.html]
 
-### Option B - Run in a terminal(linux) or command prompt shell (windows)
+### Option B - Run in a terminal (linux) or command prompt shell (windows)
+
+In the examples below, the assumptions are
 
 **For linux**
 
@@ -34,4 +36,14 @@ Refer to this page for more information on how to edit the flow - [https://docs.
 **For Windows**
 
 ```"C:/Program Files/Plunify/InTime/bin/intime.exe" -mode batch -platform minimal -project C:/Users/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/Users/intimeflow.tcl```
+
+#### Description of arguments:
+1. `/vol1/tools/intime/intime.sh` Change this to the location of intime.sh or intime.exe in your environment.
+2. `-mode batch` Tells InTime to operate in batch mode.
+3. `-platform minimal` Tells InTime to operate in non-GUI mode.
+4. `-project` Design to optimize – specify your XPR file.
+5. `-vendor_toolchain` Specify your FPGA vendor tools 
+6. `-vendor_toolchain_version` Use the specified Vivado version.
+7. `-s` Runs an InTime Tcl script. Change this to point to the InTime Tcl script that you are creating.
+8. `>@ stdout` Echo output to the terminal as InTime runs.
 
