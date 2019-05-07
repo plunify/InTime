@@ -27,8 +27,6 @@ Refer to this page for more information on how to edit the flow - [https://docs.
 
 ### Option B - Run in a terminal (linux) or command prompt shell (windows)
 
-In the examples below, the assumptions are
-
 **For linux**
 
 ```/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl```
