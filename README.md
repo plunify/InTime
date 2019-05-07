@@ -11,7 +11,7 @@ The `intimeflow.tcl` is an optimization Tcl script for InTime. The `start_intime
 
 ### Option A - Use Vivado Tcl Console
 ![alt text](https://github.com/plunify/InTime/blob/master/images/VivadoTclConsole_windows.png "Vivado Tcl Console - Windows") 
-1. Open the Tcl Console and source this script - `start_intime_vivado.tcl`
+1. Open the Tcl Console and source this script `start_intime_vivado_windows.tcl` for Windows or `start_intime_vivado_linux.tcl` for Linux OS.
 2. This script runs the InTime executable and passes in a custom InTime optimization script called `intimeflow.tcl`
 
 The contents of the intimeflow.tcl are
