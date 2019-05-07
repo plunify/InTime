@@ -10,11 +10,12 @@ This repository contains scripts used to run InTime in the tcl console or comman
 The `intimeflow.tcl` is an optimization Tcl script for InTime. The `start_intime_vivado.tcl` is a wrapper to configure the environment before running the optimization script.
 
 ### Option A - Use Vivado Tcl Console
+1. Edit the `start_intime_vivado.tcl` file to specify the configuration, such as project path etc. 
 ![alt text](https://github.com/plunify/InTime/blob/master/images/VivadoTclConsole_windows.png "Vivado Tcl Console - Windows") 
-1. Open the Tcl Console and source this script `start_intime_vivado_windows.tcl` for Windows or `start_intime_vivado_linux.tcl` for Linux OS.
-2. This script runs the InTime executable and passes in a custom InTime optimization script called `intimeflow.tcl`
+2. Open the Tcl Console and source this script `start_intime_vivado_windows.tcl` for Windows or `start_intime_vivado_linux.tcl` for Linux OS.
+3. This script runs the InTime executable and passes in a custom InTime optimization script called `intimeflow.tcl`
 
-The contents of the intimeflow.tcl are
+The contents of the intimeflow.tcl are below
 ```flow reset
 flow set run_target local
 flow set runs_per_round 2
@@ -23,7 +24,7 @@ flow set concurrent_runs 1
 flow set control_create_bitstreams false
 flow run_recipe "hot_start"
 ```
-To customize the flow, refer to this [page](https://docs.plunify.com/intime/flow_properties.html). 
+The sample flow will run 1 round containing 2 builds and do 1 build at a time. To customize the flow, refer to this [page](https://docs.plunify.com/intime/flow_properties.html). 
 
 ### Option B - Run in a terminal (linux) or command prompt shell (windows)
 
