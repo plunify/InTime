@@ -29,8 +29,9 @@ Refer to this page for more information on how to edit the flow - [https://docs.
 
 **For linux**
 
-```eval exec "/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl" >@ stdout```
+```/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl```
 
 **For Windows**
 
-```eval exec ""C:/Program Files/Plunify/InTime/bin/intime.exe" -mode batch -platform minimal -project C:/Users/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/Users/intimeflow.tcl" >@ stdout```
+```"C:/Program Files/Plunify/InTime/bin/intime.exe" -mode batch -platform minimal -project C:/Users/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/Users/intimeflow.tcl```
+
