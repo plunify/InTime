@@ -23,7 +23,7 @@ flow set concurrent_runs 1
 flow set control_create_bitstreams false
 flow run_recipe "hot_start"
 ```
-Refer to this page for more information on how to edit the flow - [https://docs.plunify.com/intime/flow_properties.html]
+To customize the flow, refer to this [page](https://docs.plunify.com/intime/flow_properties.html). 
 
 ### Option B - Run in a terminal (linux) or command prompt shell (windows)
 
