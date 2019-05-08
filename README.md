@@ -1,5 +1,7 @@
 # Run InTime in Tcl Mode
-This repository contains scripts used to run InTime in the tcl console or command line. Currently the scripts here caters for Vivado in both project mode. (Non-project mode will be added soon. For non-project mode flow, you can run this with a DCP.) For more information about InTime, please click [here](https://www.plunify.com/en/intime/)
+This repository contains scripts used to run InTime in the tcl console or command line. 
+
+Currently the scripts here caters for Vivado in both project and non-project modes. For non-project mode flow, you can only run this with a **DCP**, instead of a XPR. For more information about InTime, please click [here](https://www.plunify.com/en/intime/)
 
 ## Requirements
 1. Latest version of InTime installed.
