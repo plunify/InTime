@@ -9,8 +9,13 @@ You can either use the Vivado Tcl Console or the terminal/command prompt to do t
 ### For Vivado Tcl Console
 1. Edit the `configure_tools.tcl` and specify the InTime installation path under the **yourintimetoolpath** variable.
 2. Open the Vivado Tcl Console and type in `source configure_tools.tcl`
-3. When it completes successfully, you should see a list of currently installed tools. 
+3. When it completes successfully, you should see a list of currently installed tools. (See below) 
+
+![alt text](https://github.com/plunify/InTime/blob/master/configuration/Vivado_tcl_console_tool_list.png)
 
 
+### For Terminal or Command prompt
 
-`"C:/Program Files/Plunify/InTime/v2.6.11/bin/intime.exe" -mode batch -platform minimal s D:/work/intimetclflow/intime_install_FPGA_tools.tcl`
+For Windows, 
+`"C:/Program Files/Plunify/InTime/v2.6.11/bin/intime.exe" -mode batch -platform minimal s intime_install_FPGA_tools.tcl`
+
