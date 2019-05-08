@@ -1,1 +1,1 @@
-# Configure your FPGA toolchains in InTime
+# Configure FPGA toolchains in InTime with Tcl
