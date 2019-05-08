@@ -1,6 +1,6 @@
 # Configure FPGA toolchains in InTime with Tcl
 
-You can either use the Vivado Tcl Console or the terminal/command prompt to do this
+You can either use the Vivado Tcl Console or the terminal/command prompt to do this. 
 
 ## Steps
 1. Download the 2 scripts `configure_tools.tcl` and `intime_install_FPGA_tools.tcl`
@@ -22,3 +22,5 @@ For Windows,
 `"C:/Program Files/Plunify/InTime/v2.6.11/bin/intime.exe" -mode batch -platform minimal s intime_install_FPGA_tools.tcl`
 
 For Linux, just change to where intime.sh is located. The output should be the same as the Vivado Tcl Console.
+
+For more information on this, please refer to the InTime [documentation](https://docs.plunify.com/intime/configuration.html)
