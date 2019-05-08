@@ -5,7 +5,7 @@ Currently the scripts here caters for Vivado in both project and non-project mod
 
 ## Requirements
 1. Latest version of InTime installed.
-2. A copy of Vivado and license are properly registered in InTime. Please refer to this [page](https://github.com/plunify/InTime/tree/master/configuration)
+2. At least a copy of Vivado and its license properly registered in InTime. If you have not done so, please refer to this [page](https://github.com/plunify/InTime/tree/master/configuration)
 
 ## Steps
 1. Download the scripts in the repo. There are 2 main scripts. 
