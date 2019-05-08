@@ -15,7 +15,10 @@ You can either use the Vivado Tcl Console or the terminal/command prompt to do t
 
 
 ### For Terminal or Command prompt
+1. Edit the `configure_tools.tcl` and specify the InTime installation path under the **yourintimetoolpath** variable.
 
 For Windows, 
+
 `"C:/Program Files/Plunify/InTime/v2.6.11/bin/intime.exe" -mode batch -platform minimal s intime_install_FPGA_tools.tcl`
 
+For Linux, just change to where intime.sh is located. The output should be the same as the Vivado Tcl Console.
