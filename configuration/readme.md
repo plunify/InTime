@@ -1,1 +1,1 @@
-Configure your FPGA toolchains in InTime
+# Configure your FPGA toolchains in InTime
