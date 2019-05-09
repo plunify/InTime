@@ -12,10 +12,10 @@ For more information about InTime, please click [here](https://www.plunify.com/e
 
 ## Steps
 1. Download the scripts in the repo. There are 2 main scripts. 
-The `intimeflow.tcl` is an optimization Tcl script for InTime. The `start_intime_vivado.tcl` is a wrapper to configure the environment before running the optimization script.
+The [`intimeflow.tcl`](intimeflow.tcl) is an optimization Tcl script for InTime. The start_intime_vivado_*.tcl is a wrapper to configure the environment before running the optimization script.
 
 ### Option A - Use Vivado Tcl Console
-1. Edit the `start_intime_vivado_windows.tcl` or `start_intime_vivado_linux.tcl` script to configure the environment, e.g. project path etc. 
+1. Edit the [`start_intime_vivado_windows.tcl`](start_intime_vivado_windows.tcl) or [`start_intime_vivado_linux.tcl`](start_intime_vivado_linux.tcl) script to configure the environment, e.g. project path etc. 
 2. Open the Tcl Console and source the script.
 ![alt text](https://github.com/plunify/InTime/blob/master/images/VivadoTclConsole_windows.png "Vivado Tcl Console - Windows") 
 3. This script runs the InTime executable and passes in a custom InTime optimization script called `intimeflow.tcl`
@@ -34,7 +34,7 @@ The sample flow will run 1 round containing 2 builds and do 1 build at a time. T
 ### Option B - Run in a terminal (linux) or command prompt shell (windows)
 
 **For linux**
-You can either run it directly in the terminal or use the shell script `start_intime_linux_shell.sh`. Similar to the tcl script, you will need to configure your environment in the shell script before you run it.
+You can either run it directly in the terminal or use the shell script [`start_intime_linux_shell.sh`](start_intime_linux_shell.sh). Similar to the tcl script, you will need to configure your environment in the shell script before you run it.
 
 To run it directly, enter
 ```/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl```
