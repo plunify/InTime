@@ -33,13 +33,14 @@ The sample flow will run 1 round containing 2 builds and do 1 build at a time. T
 
 ### Option B - Run in a terminal (linux) or command prompt shell (windows)
 
-**For linux**
+#### For linux
+
 You can either run it directly in the terminal or use the shell script [`start_intime_linux_shell.sh`](start_intime_linux_shell.sh). Similar to the tcl script, you will need to configure your environment in the shell script before you run it.
 
 To run it directly, enter
 ```/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl```
 
-**For Windows**
+#### For Windows
 
 ```"C:/Program Files/Plunify/InTime/bin/intime.exe" -mode batch -platform minimal -project C:/Users/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/Users/intimeflow.tcl```
 
@@ -47,7 +48,7 @@ To run it directly, enter
 1. `/vol1/tools/intime/intime.sh` Change this to the location of intime.sh or intime.exe in your environment.
 2. `-mode batch` Tells InTime to operate in batch mode.
 3. `-platform minimal` Tells InTime to operate in non-GUI mode.
-4. `-project` Design to optimize – specify your XPR file.
+4. `-project` Design to optimize – specify your XPR or DCP file.
 5. `-vendor_toolchain` Specify your FPGA vendor tools 
 6. `-vendor_toolchain_version` Use the specified Vivado version.
 7. `-s` Runs an InTime Tcl script. Change this to point to the InTime Tcl script that you are creating.
