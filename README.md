@@ -37,15 +37,15 @@ The sample flow will run 1 round containing 2 builds and do 1 build at a time. T
 
 You can either run it directly in the terminal or use the shell script [`start_intime_linux_shell.sh`](start_intime_linux_shell.sh). Similar to the tcl script, you will need to configure your environment in the shell script before you run it.
 
-To run it directly, enter
-```/vol1/tools/intime/intime.sh -mode batch -platform minimal -project /vol2/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s /vol2/intimeflow.tcl```
+To run it directly, a sample command is somthing like this below
+```intime.sh -mode batch -platform minimal -project yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s intimeflow.tcl```
 
 #### For Windows
 
-```"C:/Program Files/Plunify/InTime/bin/intime.exe" -mode batch -platform minimal -project C:/Users/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/Users/intimeflow.tcl```
+```"C:/intime.exe" -mode batch -platform minimal -project C:/yourproject.xpr -vendor_toolchain vivado -vendor_toolchain_version 2018.3.0 -s C:/intimeflow.tcl```
 
 #### Description of arguments:
-1. `/vol1/tools/intime/intime.sh` Change this to the location of intime.sh or intime.exe in your environment.
+1. `intime.sh or intime.exe` Change this to the location of intime.sh or intime.exe in your environment.
 2. `-mode batch` Tells InTime to operate in batch mode.
 3. `-platform minimal` Tells InTime to operate in non-GUI mode.
 4. `-project` Design to optimize – specify your XPR or DCP file.
