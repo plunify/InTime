@@ -2,9 +2,10 @@
 This repository contains scripts to run InTime in the Tcl Console or on the command-line. 
 
 ## Contents
-1. configuration/ : Ways to set up InTime for your FPGA toolchains
-2. images/ : Pictures used to illustrate various steps
-3. scripts/ : Sample scripts you can try to see how the optimization flow works with your FPGA toolchains
+1. configuration/ : Ways to set up InTime for your FPGA toolchains.
+2. examples/ : Sample designs for the various flows described here.
+3. images/ : Pictures used to illustrate various steps.
+4. scripts/ : Sample scripts you can try to see how the optimization flow works with your FPGA toolchains.
 
 Currently, most of the scripts provided support Vivado in both project and non-project modes. In non-project mode, only a post-synthesis **DCP** file is supported at this time. 
 
