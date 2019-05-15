@@ -1,7 +1,12 @@
 # Run InTime in Tcl Mode
 This repository contains scripts to run InTime in the Tcl Console or on the command-line. 
 
-Currently, most of the scripts support Vivado in both project and non-project modes. In non-project mode, only a post-synthesis **DCP** file is supported at this time. 
+## Contents
+1. configuration/ : Ways to set up InTime for your FPGA toolchains
+2. images/ : Pictures used to illustrate various steps
+3. scripts/ : Sample scripts you can try to see how the optimization flow works with your FPGA toolchains
+
+Currently, most of the scripts provided support Vivado in both project and non-project modes. In non-project mode, only a post-synthesis **DCP** file is supported at this time. 
 
 To use the InTime GUI, refer to this [video](https://www.youtube.com/watch?v=lQvY_XZ3R7w).
 For more information about InTime, go to [here](https://www.plunify.com/en/intime/)
