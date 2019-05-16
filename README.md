@@ -1,4 +1,5 @@
-This is a repository for InTime related scripts
+
+This is a repository for Plunify InTime related scripts
 
 For users of Xilinx tools, please go to [https://github.com/plunify/InTime-Vivado](https://github.com/plunify/InTime-Vivado)
 
