@@ -1,0 +1,234 @@
+How to use custom strategies
+==============================
+
+Custom Strategies are strategies that are generated from external
+sources which can be run in InTime. Note that this feature is only
+available from 1.3.2 onwwards.
+
+Using massive compute power available on the Plunify cloud, Plunify is
+able to perform additional analysis on the design and predicts even
+better strategies. This feature is only possible if the InTime dump file
+is provided to Plunify.
+
+How to generate the dump file
+-----------------------------
+
+Setting filters are managed through an easy to use GUI found under
+[Current Project]{.title-ref} -\> [Setting Filters]{.title-ref} and
+shown in
+`Figure #figure-tips-and-tricks-setting-filters-gui`.
+
+ {#figure-tips-and-tricks-setting-filters-gui}
+![Setting Filters
+GUI](images/tips_and_tricks/setting_filters_gui.png)
+
+
+In addition to allowing modification of the project's setting filters,
+this GUI also allows verification of setting filters and previewing the
+exploration space for a set of filters.
+
+Note that many recipes in InTime adds or removes entries from the
+project's setting filters while running. When the setting filters GUI
+is opened while a recipe is running, the actual setting filters used for
+the running job can be inspected, as shown in figure
+`Figure #figure-tips-and-tricks-setting-filters-gui-busy`.
+
+ {#figure-tips-and-tricks-setting-filters-gui-busy}
+![Setting Filters GUI While Recipe Is
+Running](images/tips_and_tricks/setting_filters_gui_busy.png)
+
+
+The documentation of each recipe provides details of any changes the
+recipe makes to the project's setting filters while running (refer to
+the *Setting Filter Considerations* subsections). Note that any changes
+made to the project's setting filters by a recipe are reverted when the
+recipe completes. Use the `job summary <job id>` Tcl command to view the
+actual setting filters used for a specific job.
+
+### Saving a template
+
+InTime supports saving and loading custom setting filter templates.
+Templates can either be exported directly from the setting filters GUI,
+or templates can be created from existing strategies using the right
+click context menu as shown in
+`Figure #figure-tips-and-tricks-setting-filters-templates`.
+
+ {#figure-tips-and-tricks-setting-filters-templates}
+![Exporting Setting Filter
+Templates](images/tips_and_tricks/setting_filters_export_template.png)
+
+
+Once a setting filter has been created, it can be applied to the
+existing setting filters of a project through using the [More
+Action]{.title-ref} -\> [Apply Existing Template]{.title-ref} action in
+the setting filters GUI.
+
+Using Tcl interface
+-------------------
+
+Using the Tcl interface, setting filters are specified using the
+`project setting_filters` command and its sub commands. To get an
+overview of all current setting filters for a project, use the
+`project setting_filters` command:
+
+    plunify> project setting_filters
+    Whitelist:
+    Empty
+
+    Blacklist:
+    Empty
+
+    Locklist:
+    Empty
+
+Some of the common setting filters management commands are listed below.
+
+    # Clears all setting filters in the open project.
+    project setting_filters clear
+
+    # List all settings in the open project's specified setting filters.
+    # Type is either <blacklist>,<whitelist> or <locklist>.
+    project setting_filters <type>
+
+    # Adds the specified setting to the specified list, with <value> being
+    # optional (except for locklists).
+    project setting_filters <type> add <setting_name> <value>
+
+    # Clears the specified settings filter.
+    project setting_filters <type> clear <all,id_only,id_value_only>
+
+    # Checks if specified setting is contained in the specified list, with
+    # <value> being optional (except for locklists).
+    project setting_filters <type> contains <setting_name> <value>
+
+    # Removes the specified setting from the specified list, with <value> being
+    # optional (except for locklists).
+    project setting_filters <type> remove <setting_name> <value>
+
+    # Verifies the open project's setting filter combinations.
+    project setting_filters verify
+
+    # Lists all settings which can be used in the settings filter
+    # for the open project
+    project setting_filters available_settings
+
+Examples
+--------
+
+### Educated algorithm usage example
+
+The `educated` algorithm uses existing knowledge in the InTime database
+to explore a set of settings and values which are optimized for the
+design. To demonstrate the use of setting filters along with the
+`educated` algorithm, take a Quartus II project for which the following
+exploration needs to be done:
+
+-   `PLACEMENT_EFFORT_MULTIPLIER` should not be touched and the current
+    project revision's value for it should be used.
+-   `ROUTER_REGISTER_DUPLICATION` is not allowed to be set to `ON` as it
+    is causing issues with the design. All other values can be explored.
+-   `ROUTER_TIMING_OPTIMIZATION_LEVEL` must be locked down to `MAXIMUM`
+    ignoring whatever value is assigned to it in the current project
+    revision.
+-   All other settings in the current project revision must be respected
+    and kept as part of the generated strategies.
+
+This can easily be accomplished using the following setting filters and
+setting `strategy_settings_scope` = `additive` in the flow
+configuration.
+
+    Whitelist:
+    Empty
+
+    Blacklist:
+    "PLACEMENT_EFFORT_MULTIPLIER" "ROUTER_REGISTER_DUPLICATION::ON"
+
+    Locklist:
+    "ROUTER_TIMING_OPTIMIZATION_LEVEL::MAXIMUM"
+
+### Oneshot algorithm usage: Example 1
+
+The `oneshot` algorithm explores each possible value for each allowed
+setting, one strategy at a time. To demonstrate, take a Quartus II
+project for which the following exploration needs to be done:
+
+-   Explore the following values for the `SEED` setting: `10`, `20`,
+    `30`, `40`, `50`, `60`, `70`, `80`, `90`.
+-   All other settings in the current project revision must be respected
+    and kept as part of the generated strategies.
+
+This can easily be accomplished using the following setting filters and
+setting `strategy_settings_scope` = `additive` in the flow
+configuration.
+
+    Whitelist:
+    "SEED" "SEED::10" "SEED::20" "SEED::30" "SEED::40" "SEED::50" "SEED::60"
+    "SEED::70" "SEED::80" "SEED::90"
+
+    Blacklist:
+    Empty
+
+    Locklist:
+    Empty
+
+### Oneshot algorithm usage: Example 2
+
+Another `oneshot` is a Quartus II project for which the following
+exploration needs to be done:
+
+-   Exploration of all possible values for
+    `ROUTER_TIMING_OPTIMIZATION_LEVEL` is required.
+-   Exploration of all possible values for
+    `PLACEMENT_EFFORT_MULTIPLIER`, except `0.5` and `1.0`, is required.
+-   `ROUTER_REGISTER_DUPLICATION` must be locked down to `ON` ignoring
+    whatever value is assigned to it in the current project revision.
+-   Existing settings in the current project revision must be ignored.
+
+This can easily be accomplished using the following setting filters and
+setting `strategy_settings_scope` = `restrictive` in the flow
+configuration.
+
+    Whitelist:
+    "ROUTER_TIMING_OPTIMIZATION_LEVEL" "PLACEMENT_EFFORT_MULTIPLIER"
+
+    Blacklist:
+    "PLACEMENT_EFFORT_MULTIPLIER::0.5" "PLACEMENT_EFFORT_MULTIPLIER::1.0"
+
+    Locklist:
+    "ROUTER_REGISTER_DUPLICATION::ON"
+
+Understanding how setting filters work
+--------------------------------------
+
+Setting filters are powerful and gives the user exact control over which
+settings in the project InTime touches.
+`Figure #figure-tips-and-tricks-setting-filters-trimming-process` shows the strategy generation process and how InTime trims
+the exploration space using the project's setting filters.
+
+ {#figure-tips-and-tricks-setting-filters-trimming-process}
+![Overview Of Exploration Space Trimming
+Process](images/tips_and_tricks/strategy_generation_state_machine.png)
+
+
+As shown in the above diagram, InTime prioritizes the settings filters
+giving the locklist the highest priority followed by the whitelist and
+then the blacklist. For example, if a setting and value combination
+appears in both the whitelist and blacklist, the combination from the
+whitelist will be included since the whitelist has priority over the
+blacklist.
+
+Note that in addition to settings filters, the `strategy_settings_scope`
+flow configuration property should also be considered when determining
+which settings will be part of the final strategy (this is illustrated
+as well in the above diagram). See the property's description in
+`flow-properties-strategy-related-properties`{.interpreted-text
+role="ref"} for more information. Also note that setting filters are
+saved on a per project basis in the *\<project\_file\>.intime* file in
+the project's directory.
+
+!!! tip
+    Any changes made to the project's setting filters by a recipe are
+reverted when the recipe completes. Use the `job summary <job id>` Tcl
+command to view the actual setting filters used for a specific job.
+
+'
