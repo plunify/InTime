@@ -13,8 +13,8 @@ Contents
 
 Installation
 -------------
-[Single Seat (Basic)]()  
-[Multiple Seats (Group/Enterprise)]()
+[Single Seat (Basic) - Under construction]()  
+[Multiple Seats (Group/Enterprise)  - Under construction]()
 
 Getting Started
 ------------------- 
@@ -39,7 +39,6 @@ Using Tcl Scripts
 Advanced Techniques
 -------------------
 [Constrain Strategies with Settings Filters](setting_filters.md)
-
 [Using Custom Strategies](custom_strategies.md)  
 [Reduce RunTime]()  
 [Leverage on Previous Results]()  
