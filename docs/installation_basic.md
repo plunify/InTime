@@ -1,132 +1,89 @@
-InTime Basic Installation
-=========================
+InTime Installation (Single Seat)
+=================================
 
-The *InTime Basic* edition runs on a single computer with the latest
-strategy generation database. This edition does **not** require an
-InTime Server to be running, so an InTime license file must be present
-on the same machine. For *InTime Group* and *InTime Enterprise*
-editions, please see the *InTime Group/Enterprise Installation* guide.
+InTime can run on a single or multiple servers. For multiple computers, it will require a component called InTime Server. Please refer to the [multiple seats](installation_enterprise.md) installation guide.
 
-!!! tip
-    To install the *InTime Cloud* edition, follow the installation
-instructions for the *InTime Basic* edition. After installation a local
-license *is not required* in order to submit your designs to the
-*Plunify Cloud*.
+!!! Note "What is InTime Agent" 
+	With every InTime installation, you will also see an application called "InTime Agent" that is also installed. This is required when InTime is ran over multiple machines at the same time.
 
-
-After performing the steps below, please configure your environment as
-described in the InTime Configuration Guide.
-
-Operating System (OS)
----------------------
+## Operating System Requirements
 
 -   64-bit architectures only
--   Windows / Ubuntu 12.04 and above / RedHat Enterprise 5 and above /
-    compatible
+-   Windows 7 above / Ubuntu 12.04 and above / RedHat Enterprise 5 and above compatible
 -   Other versions are supported upon request.
 
-### Linux Installation
+## Linux Installation
 
-Please download the Linux installer:
-`intime_v<InTime version>_64bit_linux.sh`
+1. Download the installer from [https://cloud.plunify.com/downloads](https://cloud.plunify.com/downloads).
 
-Next, proceed to install the software.
+2. Open a command-line terminal. Create the folder to install InTime.
+```bash
+$ mkdir -p ~/plunify/intime
+```
 
-Open a command-line terminal.
+3. Navigate to the installation folder.
+```bash
+$ cd ~/plunify/intime
+```
 
-Create the folder to install InTime in. :
+4. Login as the appropriate user and set user execute permissions for intime\_v\<version\>\_64bit\_linux.sh. Run the installer script.
+```bash
+~/plunify/intime $  chmod u+x intime_v<version>_64bit_linux.sh
 
-    (Example) $ mkdir -p ~/plunify/intime
+~/plunify/intime $ sh ~/Downloads/intime_v2,7_64bit_linux.sh
+Verifying archive integrity... All good.
+Uncompressing Plunify InTime version 2.7.0...................................
+.............................................................................
+.............................................................................
+.............................................................................
+```
 
-Navigate to the installation folder. :
+5. The script extracts installation files and presents a licensing agreement. Follow the onscreen instructions to accept and proceed.
 
-    (Example) $ cd ~/plunify/intime
+6. A prompt to install default modules will appear. Hit <Enter\> to install all the options.
+```bash
+--------------------------------------------------------------------------------
+Accept the terms of the Plunify End-User Licensing Agreement ('y' for Yes or 'n' for No)? y
 
-Run the installer script. :
+Thank you, proceeding with installation...
 
-    (Example) ~/plunify/intime $ sh ~/Downloads/intime_v1.1.0_64bit_linux.sh
-    Verifying archive integrity... All good.
-    Uncompressing Plunify InTime version 1.1.0......................................
-    ................................................................................
-    ................................................................................
-    ................................................................................
-
-The script extracts installation files and presents a licensing
-agreement.
-
-Hit \<space\> to scroll down or \"q\" to skip to the end. :
-
-    PLUNIFY SOFTWARE LICENSE AGREEMENT REVISION 2014-01-09
-
-    Copyright (c) 2009-2014, PLUNIFY All rights reserved.
+Install default modules (Recommended)? ('y' for Yes or 'n' for No) [y] y
+Installing defaults...
 
 
-    This Software License Agreement (the "Agreement") is a legally binding
-    agreement between the User of the software (the "User") and PLUNIFY Pte Ltd
-    ("PLUNIFY"), seated at 67 Ayer Rajah Crescent #03-20/22 Singapore 139950. By 
-    using or installing the software (as updated by PLUNIFY from time to time, 
-    the "Software"), the User is accepting to be bound by all of the terms and 
-    conditions of this Agreement.
-    --More--
+Installing 64-bit JRE...
 
-Enter 'Y' to accept and proceed, or 'N' to exit the installer. :
+InTime installation complete.
+```
 
-    --------------------------------------------------------------------------------
+    !!! note "Three options for modules"  
+        "**Local**" - on a standalone PC where InTime is installed.  
+        "**Private Cloud**" - Over multiple computers in the user's network.  
+        "**Plunify Cloud**" - Using Plunify-managed cloud computing resources.  
+        **Local** is always installed, but the rest are optional. See `run_targets` under Flow Properties for more information on the different options.
 
-    Accept the terms of the Plunify End-User Licensing Agreement ('y' for Yes or 'n' for No)? y
+7. Finally, the installer creates InTime-related shortcuts on the user's desktop.
 
-    Thank you, proceeding with installation...
+---
 
-There are three options for running builds (hit Enter to install the
-defaults):
+## Windows Installation
 
-> -   \"Local\" - on a standalone PC where InTime is installed.
-> -   \"Private Cloud\" - within the user's network.
-> -   \"Plunify Cloud\" - using Plunify-managed cloud computing
->     resources.
+1. Download the Linux installer from [https://cloud.plunify.com/downloads](https://cloud.plunify.com/downloads).
 
-*Local* is always installed, but the rest are optional. See
-`run_targets`{.interpreted-text role="doc"} for more information on the
-different options.
+2. Run the installer by double-clicking the downloaded file. The installer wizard contains the following pages which guide you through the installation process. Just follow the process below.
 
-Hit \<Enter\> to install all the options.
+![Image001.png](images/installation/Image001.png)
 
-    Install default modules (Recommended)? ('y' for Yes or 'n' for No) [y]
+![Image002.png](images/installation/Image002.png)
 
-Otherwise, type \"n\" and press \<Enter\> to choose between the
-\"Private Cloud\" and the \"Plunify Cloud\".
+![Image003.png](images/installation/Image003.png)
 
-    Use a Private Cloud to compile your designs ('y' for Yes or 'n' for No) [y]
+![Image004.png](images/installation/Image004.png)
 
-    Use a Plunify-managed Cloud to compile your designs ('y' for Yes or 'n' for No) [y]
+![Image005.png](images/installation/Image005.png)
 
-Finally, the installer creates InTime-related shortcuts on the user's
-desktop.
+![Image006.png](images/installation/Image006.png)
 
-\newpage 
+![Image007.png](images/installation/Image007.png)
 
-### Windows Installation
-
-Please download the Windows installer:
-`intime_v<InTime version>_64bit_win.exe`
-
-Run the installer by double-clicking the downloaded file.
-
-The installer wizard contains the following pages which guide you
-through the installation process.
-
-1.  Welcome page
-2.  Accept license agreement
-3.  Choose users
-4.  Choose install directory
-5.  Choose components
-6.  Choose start menu folder
-7.  Installation in progress\...
-8.  Installation completed
-
-!!! tip
-    When installation completes, an uninstaller will be created. The
-uninstaller can be accessed either through the created start menu item
-or through the \"Add/Remove Programs\" dialog in Windows.
-
-'
+![Image008.png](images/installation/Image008.png)

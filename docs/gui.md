@@ -1,5 +1,5 @@
-Navigating the InTime GUI and Agent GUI
-=======================================
+Navigating the InTime GUI 
+=========================
 
 InTime GUI
 ----------
@@ -47,7 +47,7 @@ Job ID | Job ID assigned to this round based on this local machine
 Remote Job ID | Unique Job ID assigned to this round assigned by InTime Server
 Tag | Editable placeholder for remarks. Default value is based on recipe detatils. Click on it to edit.
 
-To hide a column, go to `View` -> `Select Columns` and uncheck the column to hide it.
+To hide a column, go to **View** -> **Select Columns** and uncheck the column to hide it.
 
 ### Project History Icons
 
@@ -66,15 +66,34 @@ Icon | Description
 ![run_time exceeded](images/gui/Circle_Yellow.png) | Maximum run time exceeded.
 ![parent_revision](images/gui/parent_revision.png) | Strategy set as a **parent revision** 
 
+## Select Recipes
+Recipes are different optimization approaches. Refer to the [recipes](recipes.md) page for more information.
+
+## Flow Properties
+
+On the bottom left is the **Flow Properties**. Flow properties specify how you want to control your builds, e.g number of rounds, maximum runtime. Refer to the [flow properties](flow_properties.md) page for details of each property.
+
+## Session Log & Issues
+
+Right at the bottom, this tab displays the InTime session log. It will show the build status and errors (if any) that InTime encounters when it is running.
+![Session Log](/images/gui/session_log.png)
+
+The Issue tab filters the session log and displays "Warnings" and "Errors" only.
+![Issues Log](/images/gui/issues_log.png)
+
+## Selected Results
+
+When you click on a result, the details are display in the **Selected Results** tab. There are 2 views, a results view and a settings view. This is controled with the radio buttons on the right.
+
+![selected results](/images/results/selected_results_combined.png)
+To learn more about working and managing InTime results, refer to the [review results](results.md) page for more explanations.
 
 ## Tcl Console
 
-There is also a Tcl console in the GUI to execute Tcl commands. 
-
+A Tcl console in the GUI to execute Tcl commands. 
 ![tcl console](images/gui/tcl_console.png) 
 
-For example, to get an overview of a project's history, just type `project history` command. 
-
+For example, to get an overview of a project's history, just type `project history`. 
 
     plunify> project history
 
@@ -91,29 +110,8 @@ For example, to get an overview of a project's history, just type `project histo
 
 A Tcl command reference guide can be found [here](https://support.plunify.com/en/doc/intime-doc/tcl-command-reference/#26315).
 
-## Session Log & Issues
-
-TBC
-
-## Flow Properties
-
-Refer to the [flow properties](flow_properties.md) page for details of each property.
-
-## Review Results
-
-Refer to the [review results](results.md) page for detailed explanation.
 
 ## Analyze Results
-
+Additional analysis features can be access by clicking on the button "Analyze Result" in the InTime GUI. 
+![analyze button](images/analyze/analyze_button.png) 
 Refer to the [analyze results](analyze.md) page for detailed explanation.
-
-
-InTime Agent
-------------
-
-On Windows, the InTime agent can also be launched with a GUI. An
-overview of the InTime Agent GUI is shown below
-
- 
-![InTime Agent GUI
-Overview](images/getting_started/intime_agent_gui_overview.png)

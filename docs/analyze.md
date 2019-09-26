@@ -3,7 +3,7 @@ Analyzing InTime Results
 
 ## Starting the Analysis
 
-Additional analysis features can be access by clicking on the button "Analyze Result" in the InTime GUI. 
+To access additional analysis features, click on the button "Analyze Result" in the InTime GUI. 
 ![analyze button](images/analyze/analyze_button.png) 
 
 A new GUI below will be displayed with 5 tabs.

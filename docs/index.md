@@ -33,8 +33,7 @@ Analyse Results
 
 Using Tcl Scripts
 -------------------
-[Project Mode](project_mode.md)  
-[Non-Project Mode](non_project_mode.md)
+[Script Mode](script_mode.md)  
 
 Advanced Techniques
 -------------------

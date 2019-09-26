@@ -1,314 +1,80 @@
-InTime Group/Enterprise Configuration {#private_cloud_configuration}
-=====================================
+InTime Configuration for Multiple Seats 
+==========================================
 
-The InTime Group/Enterprise edition enables the use of multiple
-networked machines or a server farm for design optimization. This
-mechanism is known as the InTime Private Cloud run target. The Private
-Cloud architecture adapts to many different enterprise network
-environments and configurations. This section provides an overview of
-the different supported configurations and control mechanisms of the
-InTime Private Cloud, as well as the required configuration steps.
-Before discussing the details, it is worth reviewing the basic flow of
-data and the roles of each Private Cloud component during job execution.
+The InTime enables the use of multiple networked machines or a server farm for design optimization. This mechanism is enabled by specifying "Private Cloud" as a run target in [Flow Properties](flow_properties.md). Multiple architectures, such as LSF and SGE, are supported.
 
-The following components are present:
+## Private Cloud Configuration Overview
 
-> 1.  A InTime Server / License Server (usually together but can be
->     separated).
-> 2.  One or more InTime Agents that act as workers during job
->     execution.
-> 3.  One or more InTime Clients from which designers submit FPGA design
->     jobs to be run.
-> 4.  One or more FPGA software installations used to build your
->     designs.
+Below is a typical deployment scenario for multiple InTime workers. 
 
-![Private Cloud network
-Architecture](images/run_targets/private_cloud_network.png)
+Roles           | Description
+----------------|-------------------
+InTime Server   | Manages the job scheduling, collating results and license management.
+InTime (Worker) | Workers receives job assignments from the Server and runs them.
+InTime (Client) | Client submits jobs (FPGA projects) to the Server and collates the results.
 
-The job execution flow is:
+![Private Cloud network Architecture](images/configuration/Client_Worker_Server.png)
 
-> 1.  The user submits a new job to the InTime Server using the InTime
->     Client.
-> 2.  The Server accept this job and assigns a remote job ID to it.
-> 3.  The new job is queued.
-> 4.  The Server assigns the job to eligible InTime Agents in the
->     Private Cloud.
-> 5.  The Server waits for workers to complete their assigned revisions,
->     and continues to handle other jobs.
-> 6.  The Server returns a job completed response to polling requests
->     from the InTime Client which downloads and collates all results,
->     completing the job.
+Below is a scenario of how a project is submitted over the the network to multiple machines
 
-Configure the Private Cloud in 4 steps:
+1. The user starts an InTime Client. User opens a project and submits a job to the InTime Server. Usually this job has multiple revisions or strategies.
+2. The InTime Server accepts this job and assigns a *job ID* to it. 
+3. The InTime Server queues the job and assigns individual strategy/revision to available InTime Workers.
+4. When the InTime Worker has completed their assigned strategy, the results are sent back to the InTime Server.
+5. InTime Server will mark the job as completed when all the results are back.
+6. InTime client will receive a notification in its next polling request. It will download the results, update the history and complete the job.
 
-> 1.  Register the InTime Server license. See
->     `private_cloud_setup_license_registration`{.interpreted-text
->     role="ref"}
-> 2.  Configure the Server parameters: such as FPGA tool versions,
->     working directories, network parameters, worker configurations
->     etc. See `private_cloud_server_configuration`{.interpreted-text
->     role="ref"}
-> 3.  Start InTime Agents. See
->     `private_cloud_start_agents`{.interpreted-text role="ref"}
-> 4.  Set the Server address in the InTime Client and submit the example
->     design as a test job. See
->     `private_cloud_client_configuration`{.interpreted-text role="ref"}
+### InTime Server Admin Console 
 
-A typical InTime Private Cloud setup is shown in
-`Figure #figure-setup1`{.interpreted-text role="num"}. In most cases,
-this is the recommended setup as both InTime Server and License Server
-are running on the same machine. Another way is to run the Server daemon
-and the License Server on separate machines - involving more machines
-and housekeeping. For more details on InTime Server and License Server
-separation, click
-[here](http://support.plunify.com/en/knowledgebase/how-to-have-intime-server-and-license-server-running-in-2-servers/)
-to learn about the setup and configuration.
+The InTime Server provides an administration console for configuration tasks. Launch the Admin Console before continuing:
+```bash
+$ pwd
+/home/intime/intimeserver
 
- {#figure-setup1}
-![Typical Private Cloud setup,
-(Recommended)](images/configuration/intime_server.png)
+$ ./admin_console.sh
+InTime Server version: 1.1.0
+Git: v1.2.0 (Build cd64f0b)
+Type ".help" for instructions. For help on any command, type ".help.<command>"
 
-
-The ensuing sections guide users through the required steps.
-
-Step 1: Server License Registration {#private_cloud_setup_license_registration}
------------------------------------
-
-Starting the InTime Server requires an *InTime Group* or *InTime
-Enterprise* license.
-
-### Step 1.1: Obtain Server License
-
-Provide a suitable machine's MAC address to Plunify to obtain a Server
-license file. Copy this license file to your `intimeserver` installation
-directory. For more details, see the *Obtain A License* section of the
-InTime documentation.
-
-### Step 1.2: Start Server {#private_cloud_start_server}
-
-Next, start the Server. For example, to start an InTime Server with a
-license file, `/home/intime/intimeserver/server.lic`, use the following
-command:
-
-    $ cd /home/intime/intimeserver
-    $ ./start_server.sh
-
-    $---------- BEGINNING OF LOG FILE ----------
-    UTC DATE/TIME: 2015-12-15 02:32:01.269
-
-
-    $---------- BEGINNING OF LOG FILE ----------
-    UTC DATE/TIME: 2015-12-15 02:32:01.269
-    Write permission (plunify.db) [  OK  ]
-    JDBC (plunify.db)             [  OK  ]
-    JDBC (intimeruns.h2.db)       [  OK  ]
-    Starting InTime Server        [  OK  ]
-    Starting License Server       [  OK  ]
-    License server.lic            [  OK  ]
-    License has started?          [  OK  ]
-    License not expired?          [  OK  ]
-    License Mac 08:00:27:70:A5:E2 [  OK  ]
-    License features              [  OK  ]
-
-!!! tip
-    To start the server with multicast enabled, add the `-multicast`
-argument.
-
-
-### Step 1.3: Verify License
-
-Verify that the license was accepted by looking at the last five lines
-of the `./start_server.sh` command.
-
-    License server.lic            [  OK  ]
-    License has started?          [  OK  ]
-    License not expired?          [  OK  ]
-    License Mac 08:00:27:70:A5:E2 [  OK  ]
-    License features              [  OK  ]
-
-Finally, verify that the license is working by starting an InTime Client
-and then selecting *Help* \> *Manage Licenses*. Clicking on the
-*Floating License* tab triggers a license verification process as shown
-in `Figure #figure-verify-floating-license`. If the Server's IP address has not been specified, fill in
-the IP address as well as the \"comport\" (leave as default if you are
-not familiar with this argument) and then click on *Test And Configure*.
-
- {#figure-verify-floating-license}
-![Verify Floating License Using the InTime
-Client](images/configuration/config_enterprise_verify_license.png)
-
-
-!!! tip
-    When using InTime in a Private Cloud environment, you do not have to do
-anything for the \"Local License\" tab in
-`Figure #figure-verify-floating-license`{.interpreted-text role="num"}.
-
-
-Step 2: InTime Server Configuration {#private_cloud_server_configuration}
------------------------------------
-
-Server configuration includes the following:
-
-> -   **The Server's IP address:** This includes: network address(es)
->     and port(s) - multiple ones if you are running the Server and
->     License components separately.
-> -   **The global network configuration:** This lets the administrator
->     set up build machine parameters like the FPGA tool versions,
->     paths, licenses, other parameters).
-
-### Example Setup
-
-The following example setup, assuming a `192.168.10.0/24` subnet, is
-used to demonstrate the configuration steps.
-
-!!! tip
-    Please change the IP address, port, user name, toolchains, etc. to suit
-your environment. Also, ensure the required FPGA tools are available to
-machine \#1 and machine \#2.
-
-
-InTime Server
-
-    Operating System      Linux
-    Architecture          x86_64
-    IP Address            192.168.10.1 
-    Mac Address           00:60:70:21:22:35 
-    Communication port    39940
-    Installation path     /home/intime/intimeserver
-    Linux user            intime
-
-Quartus Server
-
-    LM_LICENSE_FILE       2100@192.168.10.2
-    Toolchain             QuartusII, version 13.1.2
-    Installation path     /mnt/opt/Altera/13.1.2
-
-Build Machine \#1
-
-    Operating System      Linux
-    Architecture          x86_64
-    IP Address            192.168.10.10
-    Mac Address           00:50:56:21:E3:EE
-    Communication port    39940
-    Installation path     /home/user10/intime
-    Linux user            user10
-
-Build Machine \#2
-
-    Operating System      Linux
-    Architecture          x86_64
-    IP Address            192.168.10.10
-    Mac Address           00:50:22:21:E4:EF
-    Communication port    39940
-    Installation path     /home/user10/intime
-    Linux user            user10
-
-### Step 2.1. Start the InTime Server
-
-If the Server has not been started, refer to
-`private_cloud_start_server`{.interpreted-text role="ref"}.
-
-### Step 2.2. Launch Server Admin Console {#private_cloud_launch_admin_console}
-
-The InTime Server provides an administration console for configuration
-tasks. Launch the Admin Console before continuing:
-
-    $ pwd
-    /home/intime/intimeserver
-
-    $ ./admin_console.sh
-    InTime Server version: 1.1.0
-    Git: v1.2.0 (Build cd64f0b)
-    Type ".help" for instructions. For help on any command, type ".help.<command>"
-
-    user>
+user>
+```
 
 After launching the console, enter Admin mode using the `.admin`
 command:
+```
+user>.admin
+admin>
+```
 
-    user> .admin
-    admin> 
-
-To leave Admin mode and return to User mode, type `.user`. To exit the
-Admin Console when in User mode, type `.exit`.
-
-For more information on the Private Cloud administration features, see
-the *Private Cloud Administration* documentation.
-
-### Step 2.3. Configure Build Environment {#private_cloud_setup_global_configuration}
-
-The \"global configuration\" refers to settings which are set once in
-the InTime Server, and thereafter used by all build machines \-- the
-InTime Clients and Agents. The global configuration is intended to be a
-single point of configuration for your InTime build environment.
-
-The most *important* thing to set up is the FPGA tool environment for
-your builds. Other than that, the defaults should be sufficient for all
-the other parameters.
-
-Follow the steps below to tell InTime where your FPGA tools are. Repeat
-these steps to set up multiple versions.
-
-!!! tip
-    In this example, the FPGA tool is installed at `/mnt/opt/Altera/13.1.2/`
-and the tool license is a floating one located at `2100@192.168.10.2`.
+To leave `Admin` mode and return to `User` mode, type `.user`. To exit the Admin Console when in User mode, type `.exit`.  
+For more information on the features, see the [Private Cloud Administration](private_cloud_administration.md) documentation.
 
 
-    admin> .global.set.toolchain
+## Configure Build Environment
 
-    Enter Operating System for tool, use .end to exit session.
-    Operating System: ('1' for Linux, '2' for Windows) [1]
+To configure all the InTime clients/workers in one operation, InTime uses a setting called "global configuration". All the InTime clients/workers will fetch the environment configuration, such as FPGA tools location, from this setting.  
 
-    admin.os> 1
+In this example, the FPGA tool is installed at `/mnt/opt/Vivado/2019.1` and the tool license is a floating one located at `2100@192.168.10.2`.
 
-    Enter tool, use .end to exit session.
-    Tools: ('1' for QuartusII, '2' for ISE)
+![Configure global toolchain](images/configuration/global_set_toolchain.png)
 
-    admin.tool> 1
+To check your what has been confgured, just type `global.toolchain`
 
-    Enter installation path, use .end to exit session.
-    For example, /opt/Quartus/13.0/quartus
+```
+admin> global.toolchain
 
-    admin.path> /mnt/opt/Altera/13.1.2/quartus
++-----+-------+--------+-----------+--------------------------------+-------------------+
+| NO. | OS    | VENDOR | TOOL      | PATH                           | LICENSE           |
++-----+-------+--------+-----------+--------------------------------+-------------------+
+| 1   | LINUX | Altera | QuartusII | /mnt/opt/Altera/13.1.2/quartus | 2100@192.168.10.2 |
++-----+-------+--------+-----------+--------------------------------+-------------------+
+```
 
-    Enter license path, use .end to exit session.
-    For example, /home/user/nodelock.dat or port@hostname for floating license
+The InTime Clients and Agents in the network will automatically fetch the toolchain information when required. Agents will poll and refresh this information at regular intervals, but if a Client is already running while the Server configuration was being changed, the user must manually fetch the updated information. Alternatively, restart the Client if possible.
 
-    admin.license> 2100@192.168.10.2
+To view the rest of the global configuration commands, use the `.global` command:
 
-    Operating System  : Linux
-    Tool              : QuartusII
-    Installation path : /mnt/opt/Altera/13.1.2/quartus
-    License           : 2100@192.168.10.2
-
-    Save to session? ('y' for Yes or 'n' for No) [y]
-
-    admin.confirm> y
-
-    Add more toolchain? ('y' for Yes or 'n' for No) [y]
-
-    admin.confirm> n
-
-    admin> .global.toolchain
-
-    +-----+-------+--------+-----------+--------------------------------+-------------------+
-    | NO. | OS    | VENDOR | TOOL      | PATH                           | LICENSE           |
-    +-----+-------+--------+-----------+--------------------------------+-------------------+
-    | 1   | LINUX | Altera | QuartusII | /mnt/opt/Altera/13.1.2/quartus | 2100@192.168.10.2 |
-    +-----+-------+--------+-----------+--------------------------------+-------------------+
-
-The InTime Clients and Agents in the network will automatically fetch
-the toolchain information when required. Agents will poll and refresh
-this information at regular intervals, but if a Client is already
-running while the Server configuration was being changed, the user must
-manually fetch the updated information as described in
-`private_cloud_client_configuration_verify_toolchains`{.interpreted-text
-role="ref"}. Alternatively, restart the Client if possible.
-
-To view the rest of the global configuration commands, use the `.global`
-command:
-
-    user> .global
+    user.global
     +-----------------------+---------------------------------------------+
     | USAGE                 | DESCRIPTION                                 |
     +-----------------------+---------------------------------------------+
@@ -317,7 +83,21 @@ command:
     | .global.toolchain     | show configured toolchains for workers      |
     +-----------------------+---------------------------------------------+
 
-### Step 2.4. Disk Space Considerations {#private_cloud_start_agents}
+## Configure Working Directory 
+
+Each worker requires a location where the build is first saved and compiled. This is called the "working directory". By default the working directory is located at `<user home>/plunify`. To change the working directory, use `.global.set.jobsdir` in Admin mode.
+
+```
+user> .admin
+admin>.global.set.jobsdir=<new working directory path>
+```
+
+<!--
+Log file directory: 
+
+When starting an Agent, add a -custom\_logs\_path \<new logfile path\argument to specify a new location for the
+    logfiles. Make sure the user has write permission in the new path.
+
 
 Typically the default values for the USER\_HOME environment variable is:
 
@@ -336,100 +116,54 @@ write temporary build files. The default location is
 
 If disk space on USER\_HOME is limited, do the following to change the
 logfile and working directories:
+-->
 
-1.  Working directory: Use .global.set.jobsdir in Admin mode.
+## Configure InTime Agent 
 
-<!-- -->
+To let InTime Server knows the availability of InTime workers within the network, the InTime Agent application needs to be started. The InTime Agent is a background process that notifies the InTime Server that a Worker is available/busy/completed.
 
-    user> .admin
-    admin> .global.set.jobsdir=<new working directory path>
+There are 2 ways to run the agents
+1. Manually starting each agent 
+2. Via a LSF/SGE/PBS network environment
 
-2.  Logfile directory: When starting an Agent, add a -custom\_logs\_path
-    \<new logfile path\> argument to specify a new location for the
-    logfiles. Make sure the user has write permission in the new path.
+### Start Agent Manually
 
-Step 3: Start InTime Agent(s)
------------------------------
+The manual way to start an Agent is log onto each build machine and run the `start_agent.sh` script. For example:
+```
+$ ./intime_agent.sh -ip 192.168.10.1 -comport 39940 -mode background -platform minimal &
+```
 
-For builds to be executed the IntTime Server requires one or more Agents
-to be running.
+Below is an explanation of the arguments used in the command.  
 
-How Agents behave `depends` on your network. For example, if your
-environment uses LSF (Load Sharing Facility) or SGE (Sun Grid Engine),
-you should configure InTime to use it. That way, Agents will be
-automatically started and terminated upon job submission and completion.
-In other types of environments, it might be preferable to manually
-launch Agents, leave them running and manually terminate them when
-necessary.
+Arguments | Description
+----------|--------------
+ip        | This is the InTime Server IP address
+comport   | This is the network port required to connect to the server.
+mode      | "background" means it is running as Tcl or a batch
+platform  | Minimal. This is say there is no GUI.
 
-The next two sections describe how to configure Agents in different
-environments.
+The trailing **&** allows `intime_agent.sh` to run in daemon mode, so if you close the terminal, the process will still continue to run. 
 
-### Step 3.1: Start Agent(s) Manually
-
-!!! tip
-    Skip this step and proceed to Step 3.2 if you are using LSF / SGE / PBS.
+!!! tip "Terminate InTime Agent"
+    To stop the `intime_agent.sh` process, use the `.intime.set.terminate` command in the server's admin console.
 
 
-The manual way to start an Agent is log onto each build machine and run
-the `start_agent.sh` script. For example:
+### Start Agent Dynamically (LSF / SGE / PBS) 
 
-!!! tip
-    Please change the IP address in the following examples to suit your
-environment's.
+InTime supports 3 workload management platforms - LSF, SGE and PBS.
+For LSF, SGE or PBS users, the job submission command-line arguments for:
 
+1.  LSF which uses `bsub`.
+2.  SGE which uses `qsub`.
+3.  Torque PBS which also uses `qsub` but with different arguments.
 
-    $ ssh user10@192.168.10.10
-    user10$ /home/user10/intime/intime_agent.sh -ip 192.168.10.1 
-    -comport 39940 -mode background -platform minimal &
-
-    $ ssh user10@192.168.10.11
-    user10$ /home/user10/intime/intime_agent.sh -ip 192.168.10.1 
-    -comport 39940 -mode background -platform minimal &
-
-The trailing & allows `intime_agent.sh` to run in daemon mode, so if you
-close the command terminal the process will still continue to run. To
-stop the `intime_agent.sh` process, the `.intime.set.terminate` command
-in the server's admin console.
-
-!!! tip
-    In addition to starting agents manually as shown above, InTime supports
-third-party systems such as the Sun Grid Engine (SGE) etc. If you are
-unsure how to adapt the agent to your environment please get in contact
-in order for us to work together towards a set of arguments that will
-fit into your specific environment.
+Below is an overview of how InTime, InTime Server interacts with these platforms.
 
 
-If manually starting agents is sufficient for your environment you can
-skip the following section and proceed to
-`private_cloud_start_agents_verify`{.interpreted-text role="ref"}.
+### Advanced Configuration for LSF / SGE / PBS
 
-### Step 3.2: Start Agents Dynamically (LSF / SGE / PBS) {#private_cloud_start_agents_dynamically}
+Environment variables like USER\_ARGS, INTIME\_HOME, INTIME\_SERVER, etc. are referenced in the following examples. Some of them are specified automatically and you *only* need to configure `USER_ARGS`.
 
-:: note:: Skip this step and proceed to Step 4 if you are NOT using LSF
-/ SGE / PBS.
-
-In environments where agents are started and terminated dynamically,
-some upfront configuration must be done using both the:
-
-> 1.  InTime Server Admin Console; and
-> 2.  the InTime Client that is going to submit builds.
-
-Let's discuss the job submission command-line arguments for:
-
-> 1.  LSF which uses `bsub`.
-> 2.  SGE which uses `qsub`.
-> 3.  Torque PBS which also uses `qsub` but with different arguments.
-
-!!! tip
-    Skip the following paragraphs and proceed straight to Sections 3.2.\* if
-you just want to configure your environment for LSF / SGE / PBS without
-knowing all the details.
-
-
-Environment variables like USER\_ARGS, INTIME\_HOME, INTIME\_SERVER,
-etc. are referenced in the following examples. Some of them are
-specified automatically and you *only* need to configure `USER_ARGS`.
 The paragraphs below the command examples explains these variables.
 
 For LSF:- (all on the same line) :
@@ -461,46 +195,46 @@ environment (discuss with your IT administrator if necessary).
 
 Consider the commands in more detail:
 
-> -   `bsub` or `qsub` arguments specific to your environment *must* be
->     inserted before the `intime_agent.sh` command, using the
->     `${USER_ARGS}` environment variable.
+-   `bsub` or `qsub` arguments specific to your environment *must* be
+    inserted before the `intime_agent.sh` command, using the
+    `${USER_ARGS}` environment variable.
 >
-> -   PBS uses a supplied script called intime\_agent.pbs to start jobs.
->     The arguments used are similar to LSF and SGE except that you do
->     not need to specify `${USER_ARGS}`.
+-   PBS uses a supplied script called intime\_agent.pbs to start jobs.
+    The arguments used are similar to LSF and SGE except that you do
+    not need to specify `${USER_ARGS}`.
 >
-> -   Each command contains macros in the form of `${<MACRO_NAME>}`
->     which is resolved by InTime before executing the command. The
->     following macros are available:
+-   Each command contains macros in the form of `${<MACRO_NAME>}`
+    which is resolved by InTime before executing the command. The
+    following macros are available:
 >
->     >     INTIME_SERVER     : The InTime Server IP/hostname.
->     >     INTIME_PORT       : The InTime Server communication port.
->     >     REMOTE_JOB_ID     : The remote job ID of the current job.
->     >     LOCAL_JOB_ID      : The local job ID of the current job.
->     >     JOB_DIR           : The local working directory of the current job.         
->     >     USER_HOME         : The user's home path on the InTime Client machine.
->     >     INTIME_HOME       : The InTime installation directory.
->     >     PROJECT_DIR       : The current project's directory.
->     >     PROJECT_NAME      : The current project's name.
->     >     USER_ARGS         : Any user specific arguments (queue names, priorities etc.)
->     >
->     >     AGENT_MAX_RUNS    : Max runs for agent when action's trigger is "Concurrent Runs".
->     >     REVISION_NAME     : The revision name when action's trigger is "Revision".
+        INTIME_SERVER     : The InTime Server IP/hostname.
+        INTIME_PORT       : The InTime Server communication port.
+        REMOTE_JOB_ID     : The remote job ID of the current job.
+        LOCAL_JOB_ID      : The local job ID of the current job.
+        JOB_DIR           : The local working directory of the current job.         
+        USER_HOME         : The user's home path on the InTime Client machine.
+        INTIME_HOME       : The InTime installation directory.
+        PROJECT_DIR       : The current project's directory.
+        PROJECT_NAME      : The current project's name.
+        USER_ARGS         : Any user specific arguments (queue names, priorities etc.)
+    >
+        AGENT_MAX_RUNS    : Max runs for agent when action's trigger is "Concurrent Runs".
+        REVISION_NAME     : The revision name when action's trigger is "Revision".
 >
-> -   In addition, there are additional arguments for the InTime Agent
->     which gives you more control over its behavior; Specifically:
+-   In addition, there are additional arguments for the InTime Agent
+    which gives you more control over its behavior; Specifically:
 >
->     >     -no_agent_limit
->     >     Allows multiple Agents run on the same machine. 
->     >     By default only one Agent is allowed to run on a single machine. 
->     >
->     >     -max_runs <count>
->     >     Limits this Agent to the specified number of runs. 
->     >     When the runs are done, the Agent will terminate itself.
->     >
->     >     -remote_job <remote_job_id>
->     >     Restricts this Agent to service a particular build job. The InTime Server will 
->     >     only assign jobs which have the specified ID to this Agent. 
+        -no_agent_limit
+        Allows multiple Agents run on the same machine. 
+        By default only one Agent is allowed to run on a single machine. 
+    >
+        -max_runs <count>
+        Limits this Agent to the specified number of runs. 
+        When the runs are done, the Agent will terminate itself.
+    >
+        -remote_job <remote_job_id>
+        Restricts this Agent to service a particular build job. The InTime Server will 
+        only assign jobs which have the specified ID to this Agent. 
 >
 These arguments make the agents very flexible and adaptable to many
 different environments, but also can make the configuration process a
@@ -509,10 +243,6 @@ little daunting for the user.
 In the example above, the spawned Agent will only service the specified
 build job and will automatically terminate as soon as the required
 number of builds have completed.
-
-!!! tip
-    If you are unsure about how to adapt the Agent to your environment,
-please get in touch with us.
 
 
 Once you are ready, begin the dynamic InTime Agent configuration via the
@@ -525,33 +255,33 @@ Open an InTime Server Admin Console
 run the `.global.set.client_action` command. The example below shows how
 to specify your `bsub` command.
 
-    user> .admin
-    admin> .global.set.client_action
+    user.admin
+    admin.global.set.client_action
 
     Enter action type, use .end to exit session.
     Types: ('1' for for Job Initialization) [1]
 
-    admin.type> 1
+    admin.type1
 
     Enter Operating System, use .end to exit session.
     Operating System: ('1' for Linux, '2' for Windows) [1]
 
-    admin.os> 1
+    admin.os1
 
     Enter script to execute, use .end to exit session.
 
-    admin.exec> bsub
+    admin.execbsub
 
     (Optional) Enter script arguments, use .end to exit session.
 
-    admin.args> ${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background 
+    admin.args${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background 
     -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
     -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
 
     Enter trigger based on the type, use .end to exit session.
     Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
 
-    admin.trigger> 3
+    admin.trigger3
 
     (Optional) Enter working directory, use .end to exit session.
 
@@ -560,12 +290,12 @@ to specify your `bsub` command.
     Enter option to abort a job if it fails, use .end to exit session.
     Abort job if fail: ('1' for yes, '2' for no) [1]
 
-    admin.option> 1
+    admin.option1
 
     Enter a number for the order in which the script will be executed, 0 first to be executed, use 
     .end to exit session. [4]
 
-    admin.order> 0
+    admin.order0
 
     Action Type       : init
     Operating System  : linux
@@ -580,11 +310,11 @@ to specify your `bsub` command.
 
     Save to session? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> y
+    admin.confirmy
 
     Add more client settings? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> n
+    admin.confirmn
     admin>
 
 ### Step 3.2.2: Configure Agents for SGE
@@ -601,26 +331,26 @@ qsub exits with exit code 0 as soon as the job is submitted
 successfully. In the example below, InTime is installed at
 /opt/tools/intime.
 
-    user> .admin
-    admin> .global.set.client_action
+    user.admin
+    admin.global.set.client_action
 
     Enter action type, use .end to exit session.
     Types: ('1' for for Job Initialization) [1]
 
-    admin.type> 1
+    admin.type1
 
     Enter Operating System, use .end to exit session.
     Operating System: ('1' for Linux, '2' for Windows) [1]
 
-    admin.os> 1
+    admin.os1
 
     Enter script to execute, use .end to exit session.
 
-    admin.exec> qsub
+    admin.execqsub
 
     (Optional) Enter script arguments, use .end to exit session.
 
-    admin.args> ${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh
+    admin.args${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh
         -intime_home /opt/tools/intime -mode background 
     -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
     -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
@@ -628,7 +358,7 @@ successfully. In the example below, InTime is installed at
     Enter trigger based on the type, use .end to exit session.
     Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
 
-    admin.trigger> 3
+    admin.trigger3
 
     (Optional) Enter working directory, use .end to exit session.
 
@@ -637,12 +367,12 @@ successfully. In the example below, InTime is installed at
     Enter option to abort a job if it fails, use .end to exit session.
     Abort job if fail: ('1' for yes, '2' for no) [1]
 
-    admin.option> 1
+    admin.option1
 
     Enter a number for the order in which the script will be executed, 0 first to be executed, use 
     .end to exit session. [4]
 
-    admin.order> 0
+    admin.order0
 
     Action Type       : init
     Operating System  : linux
@@ -658,11 +388,11 @@ successfully. In the example below, InTime is installed at
 
     Save to session? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> y
+    admin.confirmy
 
     Add more client settings? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> n
+    admin.confirmn
     admin>
 
 ### Step 3.2.3: Configure Agents for PBS
@@ -672,33 +402,33 @@ Open the Server Admin Console
 run the `.global.set.client_action` command. The example below shows how
 to specify your `qsub` command.
 
-    user> .admin
-    admin> .global.set.client_action
+    user.admin
+    admin.global.set.client_action
 
     Enter action type, use .end to exit session.
     Types: ('1' for for Job Initialization) [1]
 
-    admin.type> 1
+    admin.type1
 
     Enter Operating System, use .end to exit session.
     Operating System: ('1' for Linux, '2' for Windows) [1]
 
-    admin.os> 1
+    admin.os1
 
     Enter script to execute, use .end to exit session.
 
-    admin.exec> qsub
+    admin.execqsub
 
     (Optional) Enter script arguments, use .end to exit session.
 
-    admin.args> ${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME},
+    admin.args${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME},
     IP=${INTIME_SERVER},COMPORT=${INTIME_PORT},REMOTE_JOB=${REMOTE_JOB_ID},
     MAX_RUNS=${AGENT_MAX_RUNS}
 
     Enter trigger based on the type, use .end to exit session.
     Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
 
-    admin.trigger> 3
+    admin.trigger3
 
     (Optional) Enter working directory, use .end to exit session.
 
@@ -707,12 +437,12 @@ to specify your `qsub` command.
     Enter option to abort a job if it fails, use .end to exit session.
     Abort job if fail: ('1' for yes, '2' for no) [1]
 
-    admin.option> 1
+    admin.option1
 
     Enter a number where script will be executed, 0 first to be executed, use 
     .end to exit session. [4]
 
-    admin.order> 0
+    admin.order0
 
     Action Type       : init
     Operating System  : linux
@@ -727,11 +457,11 @@ to specify your `qsub` command.
 
     Save to session? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> y
+    admin.confirmy
 
     Add more client settings? ('y' for Yes or 'n' for No) [y]
 
-    admin.confirm> n
+    admin.confirmn
     admin>
 
 ### Step 3.2.4: Verify Configuration
@@ -747,7 +477,7 @@ In the Server Admin Console
 (`private_cloud_launch_admin_console`{.interpreted-text role="ref"}),
 type `.status` to list active Agents.
 
-    user> .status
+    user.status
     +-----+--------------------+-------+--------+--------+-------+--------+-----------------+
     | NO. | CLIENTID           | JOBID | USERID | STATUS | ALIVE | B.LIST | LAST_HEARTBEAT  |
     +-----+--------------------+-------+--------+--------+-------+--------+-----------------+
@@ -759,7 +489,7 @@ type `.status` to list active Agents.
 Next, use `.toolchain` to verify if all Agents successfully received and
 applied the FPGA tools' information from the Server.
 
-    user> .toolchain
+    user.toolchain
     +-----+--------------------+-------+--------+--------+-------+--------+-----------+---------+
     | NO. | CLIENTID           | JOBID | USERID | STATUS | ALIVE | VENDOR | TOOL      | VERSION |
     +-----+--------------------+-------+--------+--------+-------+--------+-----------+---------+
@@ -781,7 +511,7 @@ Finally, configure your InTime Client for use in your Private Cloud.
 
 Starting from InTime 2.4 and above, if you specify the InTime Server as
 part of the LM\_LICENSE\_FILE environment variable (Format:
-<39940@x.x.x.x> where x.x.x.x is the Server IP), the InTime Client
+<39940@x.x.x.xwhere x.x.x.x is the Server IP), the InTime Client
 automatically picks up the required information. Otherwise, please
 specify the Server IP address and communications port (\"comport\")
 information in the dialog shown below.
@@ -789,7 +519,7 @@ information in the dialog shown below.
     [user@host]$ export LM_LICENSE_FILE=39940@192.168.2.210:21000@192.168.0.1:21001@192.168.0.2
     [user@host]$ /mnt/opt/tools/intime/intime.sh
 
-Open the settings dialog using *File* \> *Settings* and then select *Run
+Open the settings dialog using *File* \*Settings* and then select *Run
 Targets*. Under the *Private Cloud* tab enter the Server IP and comport,
 then click *Test And Configure* as shown in
 `Figure #figure-configure-client-server-address`.
@@ -812,7 +542,7 @@ Tcl commands can be used to set the server address.
 
 Once specified, perform a network connection test:
 
-    plunify> run_target test_connection private_cloud
+    plunifyrun_target test_connection private_cloud
     Successfully received response from InTime Server v1.1.0   
 
 ### Step 4.2. Verify FPGA Tools' Setup {#private_cloud_client_configuration_verify_toolchains}
@@ -847,14 +577,14 @@ column).
 When running the InTime Client in commandline mode, the following Tcl
 command can be used to fetch the toolchain configuration.
 
-    plunify> vendors fetch_global_config
+    plunifyvendors fetch_global_config
     Successfully fetched and applied global vendor configuration.   
 
 To view the toolchains which have been fetched, use the following
 command:
 
-    plunify> vendors list
-    To register new environments, use "vendors register <vendor_name> <toolchain> <install_path> 
+    plunifyvendors list
+    To register new environments, use "vendors register <vendor_name<toolchain<install_path
     <license_file>".
 
     Registered Local Tools:
@@ -889,7 +619,7 @@ Now that you have configured Agents to start dynamically as described in
 `private_cloud_start_agents_dynamically`{.interpreted-text role="ref"},
 use the InTime Client to test your configuration.
 
-Open the settings dialog using *File* \> *Settings* and then selecting
+Open the settings dialog using *File* \*Settings* and then selecting
 *Run Targets*. Under the *Private Cloud* tab click on *Test And
 Configure*. All commands configured in the Server will be listed in the
 sequence in which they will be executed, as shown in
@@ -908,25 +638,25 @@ about it.
 Finally, submit a test job using the InTime example design to verify
 that everything was set up correctly.
 
-Open the example project using the *File* \> *Open Example Project* \>
-\<example for your FPGA tool\> menu action. Once the example is open,
+Open the example project using the *File* \*Open Example Project* \>
+\<example for your FPGA tool\menu action. Once the example is open,
 submit a test job using the following steps as shown in
 `Figure #figure-private-cloud-submit-test-design`:
 
-> -   Update the flow configuration's properties to match the
->     following:
+-   Update the flow configuration's properties to match the
+    following:
 >
->     >     Run Target      : Private Cloud
->     >     Runs Per Round  : 10
->     >     Rounds          : 1
->     >     Concurrent Runs : 2
+        Run Target      : Private Cloud
+        Runs Per Round  : 10
+        Rounds          : 1
+        Concurrent Runs : 2
 >
-> -   Open the *Private Cloud Console* and type `.status` to verify that
->     the needed agents are alive and free.
+-   Open the *Private Cloud Console* and type `.status` to verify that
+    the needed agents are alive and free.
 >
-> -   Make sure the *InTime Default* recipe is selected.
+-   Make sure the *InTime Default* recipe is selected.
 >
-> -   Finally, click on the *Optimize* button to submit the test job.
+-   Finally, click on the *Optimize* button to submit the test job.
 >
  {#figure-private-cloud-submit-test-design}
 ![Ready To Submit Test
@@ -935,17 +665,17 @@ Job](images/configuration/example_run_quartus.png)
 
 Clicking the *Optimize* button triggers the following steps:
 
-> -   The current revision in the project will be implemented locally
->     (referred to as the `parent revision`).
-> -   When the parent revision has completed, InTime will generate 10
->     new strategies.
-> -   InTime will archive the design along with its generated
->     strategies. The archive is sent to the Server which will queue
->     workers and distribute the design to workers as needed.
-> -   After the job is submitted, InTime will prompt you asking if it
->     should constantly poll the Server for results. If you click *Yes*,
->     it will poll and wait for all results to be returned from the
->     server.
+-   The current revision in the project will be implemented locally
+    (referred to as the `parent revision`).
+-   When the parent revision has completed, InTime will generate 10
+    new strategies.
+-   InTime will archive the design along with its generated
+    strategies. The archive is sent to the Server which will queue
+    workers and distribute the design to workers as needed.
+-   After the job is submitted, InTime will prompt you asking if it
+    should constantly poll the Server for results. If you click *Yes*,
+    it will poll and wait for all results to be returned from the
+    server.
 
 Next, in the *Private Cloud Console* type `.status` again as shown in
 `Figure #figure-private-cloud-submit-test-design-in-progress`. Notice that the build workers will start executing and the
