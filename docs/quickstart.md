@@ -47,7 +47,7 @@ The next step is to select an InTime recipe. A recipe represents a compilation a
 
 ## 4. Select A Recipe 
 
-### 4a. Using Vivado  
+### Using Vivado  
 
 A list of available recipes for the Xilinx Vivado software is shown below. Click on the "Recipe" dropdown box to view this list.
 
@@ -74,11 +74,19 @@ For the HotStart recipe, configure the following properties below.
 
 ![HotStart](images/quickstart/hotstart.png)
 
+if you are running on multiple machines (Private Cloud), update the flow properties to match the following:
+
+    Run Target      : Private Cloud
+    Runs Per Round  : 10
+    Rounds          : 1
+    Concurrent Runs : 2
+
+
 Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optimization)" section.
 
 ---
 
-### 4b. Using ISE
+### Using ISE
 
 For ISE, we will select the "Default" recipe. This recipe generates different synthesis and implementation options. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for ISE is different from other toolchains.
 
@@ -96,12 +104,19 @@ For the default recipe, configure the following properties below.
 
 ![Default](images/quickstart/default.png)
 
+if you are running on multiple machines (Private Cloud), update the flow properties to match the following:
+
+    Run Target      : Private Cloud
+    Runs Per Round  : 10
+    Rounds          : 1
+    Concurrent Runs : 2
+
 Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optimization)" section.
 
 ---
 
 
-### 4c. Using Quartus 
+### Using Quartus 
  
 For Quartus, we will select the "Default" recipe. This recipe generates different synthesis and implementation options. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for Quartus is different from other toolchains.
 
@@ -118,6 +133,13 @@ For the default recipe, configure the following properties below.
 * Concurrent Runs: **2** (This can be higher based on your machine's resources.)
 
 ![Default](images/quickstart/default.png)
+
+if you are running on multiple machines (Private Cloud), update the flow properties to match the following:
+
+    Run Target      : Private Cloud
+    Runs Per Round  : 10
+    Rounds          : 1
+    Concurrent Runs : 2
 
 Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optimization)" section.
 
@@ -138,6 +160,7 @@ When InTime is running, the generated strategies and their statuses will automat
   
 ![Status of each strategy as the job progresses](images/quickstart/see_generated_strategies.png)
 
+For "Private Cloud" setup, Open the *Private Cloud Console* and type `.status` to verify that the needed agents are alive and free.
 
 !!! Note "What is InTime doing?"
     a.  Analyze the design locally. If it is the first time, compile the design once, otherwise re-use existing results.  
@@ -172,7 +195,7 @@ Refer to the [Analyze Results](analyze.md) page for an explanation of all the fe
 
 When you have obtained a good result, you can export it to your FPGA software to verify the result. The TNS and WNS values must correspond to those reported by InTime. 
 
-### 7a. To XPR project
+### To XPR project
 
 1. *Right-click* the desired result and choose "Export". In the example below, we choose the revision "explore_1".
 
@@ -184,7 +207,7 @@ When you have obtained a good result, you can export it to your FPGA software to
 
 5. To verify the result, re-run your project to check that the timing result is the same as what is reported in InTime. 
 
-### 7b. To DCP checkpoint
+### To DCP checkpoint
 
 *Right-click* the desired result and choose **"Save Strategy to Tcl Script..."**. In the example below, we choose the revision "hotstart_3".
 
@@ -197,7 +220,7 @@ Make a backup copy of the DCP checkpoint, and open it in Vivado. Go to the Tcl C
 
 Re-run your build to verify the timing results.
 
-### 7c. To XISE project
+### To XISE project
 
 1. *Right-click* the desired result and choose "Export". In the example below, we choose the revision "calibrate_12".
 
@@ -208,7 +231,7 @@ Re-run your build to verify the timing results.
 4. To verify the result, re-run your project to check that the timing result is the same as what is reported in InTime. You can view the reports provided by the FPGA software to understand more about the design. ![View the result in the FPGA software](images/quickstart/xilinx_ise_TNS.png)
 
 
-### 7d. To Quartus project
+### To Quartus project
 
 1. *Right-click* the desired result and choose "Export". In the example below, we choose the revision "calibrate_175". ![Export result](images/quickstart/export_result_quartus.png)
 
