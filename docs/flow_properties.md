@@ -4,19 +4,12 @@ Flow Properties
 Before clicking the "Optimize" button, please specify the required
 build resource parameters, most importantly, the number of
 compilations, the number of rounds to run, and finally the number of
-servers or builds in parallel (see
-`Figure #figure-quickstart-vivado-flow-properties`).
-
- 
-![Essential flow
-properties](images/quickstart/flow_properties.png)
-
+servers or builds in parallel.
 
 !!! tip
     When selecting the *Private Cloud* run target, please make sure your
-Private Cloud is properly configured as described in the InTime
-Configuration Guide.
-
+    Private Cloud is properly configured as described in the InTime
+    Configuration Guide.
 
 Flow properties control the InTime execution sequence (Overview:
 `intime_flow`). The following sections explain these properties.
@@ -50,19 +43,12 @@ General Properties
 Before clicking the "Optimize" button, please specify the required
 build resource parameters, most importantly, the number of
 compilations, the number of rounds to run, and finally the number of
-servers or builds in parallel (see
-`Figure #figure-quickstart-vivado-flow-properties`).
-
- 
-![Essential flow
-properties](images/quickstart/flow_properties.png)
-
+servers or builds in parallel.
 
 !!! tip
     When selecting the *Private Cloud* run target, please make sure your
-private cloud is properly configured as described in the InTime
-Configuration Guide.
-
+    private cloud is properly configured as described in the InTime
+    Configuration Guide.
 
 These properties control the most important aspects of the flow.
 
@@ -277,11 +263,11 @@ Properties related to the generation of strategies.
     only to the Clock Margin Exploration recipe, this property makes InTime
     generate clock margin values for strategies. Default: `True`.
 
--   **Clock Margin Initial Value** (`clock_initial_value`): Applicable
+-   **Clock Margin Initial Value** (`strategy_clock_initial_value`): Applicable
     only to the Clock Margin Exploration recipe, set this property (in ns) as the starting
     clock margin quantity to explore. Default: `0.05`
 
--   **Clock Margin Increment** (`clock_increment_value`): Applicable
+-   **Clock Margin Increment** (`strategy_clock_increment_value`): Applicable
     only to the Clock Margin Exploration recipe, set this property (in ns) as the
     clock margin quantity to increase for each strategy. Default: `0.05`.
 
@@ -304,11 +290,11 @@ Properties related to the generation of strategies.
     Informative prefixes give a better idea of what a recipe does (refer
     to the recipes in InTime).
     
--   **Strategy Runtime Unit** (`strategy_time_unit`): Choose how InTime
+-   **Max Runtime Unit** (`strategy_time_unit`): Choose how InTime
     monitors build runtime - in Seconds, Minutes or Hours in order to
     terminate builds that exceed a certain runtime. Default: `Hours` 
 
--   **Maximum Runtime** (`strategy_max_runtime`): The maximum allowed
+-   **Max Runtime** (`strategy_max_runtime`): The maximum allowed
     runtime (in hours) per strategy. Default: `12`, Valid Range: `0-48`.
 
 -   **Auto-Optimize Max Runtime** (`auto_max_runtime`): Adjust Maximum Runtime
@@ -385,7 +371,7 @@ the current clean configuration, use the `flow get clean` command:
 
 !!! tip
     The above configuration is the default configuration. To restore this
-default configuration, use `flow set clean restore_defaults`.
+    default configuration, use `flow set clean restore_defaults`.
 
 To change the default configuration, use the following command and one
 of the specified sub-commands:
