@@ -18,16 +18,16 @@ Installation
 
 Configuration 
 -------------
-[Single Seat](configuration_basic.md)
-[Multiple Seats](configuration_enterprise.md)
-[Using Web-based Portal](configuration_portal.md)
-[LSF/SGE/PBS](configuration_lsf.md)
+[Single Seat](configuration_basic.md)  
+[Multiple Seats](configuration_enterprise.md)  
+[Using Web-based Portal](configuration_portal.md)  
+[LSF/SGE/PBS](configuration_lsf.md)  
 
 Getting Started
 ------------------- 
 [GUI Mode](quickstart.md)  
-[Tcl Script Mode](quickstart_tcl.md)
-[Getting Started (Videos)](quickstart_video.md)
+[Tcl Script Mode](quickstart_tcl.md)  
+[Getting Started (Videos)](quickstart_video.md)  
 
 [Navigating the GUI](gui.md)  
 [Selecting Recipes](recipes.md)  
@@ -37,32 +37,32 @@ Getting Started
 Analyse Results
 ------------------- 
 [Starting the Analysis](analyze.md)  
-[Critical Path Analysis](design_analysis.md)
+[Critical Path Analysis](design_analysis.md)  
 
 Using Tcl Scripts
 -------------------
-[Script Mode](script_mode.md)  
+[Script Mode](script_mode.md)   
 
 Using Plunify Cloud
 -------------------
-[Plunify Cloud](plunify_cloud.md)
+[Plunify Cloud](plunify_cloud.md)  
 
 Using InTime Agents
 --------------------
-[InTime Agent](agent.md)
+[InTime Agent](agent.md)  
 
 Advanced Techniques
 -------------------
-[Constrain Strategies with Settings Filters](setting_filters.md)
-[Using Custom Strategies](custom_strategies.md)
-[Reduce RunTime with Post Placement Estimates](post_placement.md)
-[Using hook scripts](hook_scripts.md)
+[Constrain Strategies with Settings Filters](setting_filters.md)  
+[Using Custom Strategies](custom_strategies.md)  
+[Reduce RunTime with Post Placement Estimates](post_placement.md)  
+[Using hook scripts](hook_scripts.md)  
 
 Command Reference:
 -------------------
-[InTime Server](private_cloud_administration.md)
-[Tcl Reference Guide](tcl_reference.md)  
-[InTime Arguments](intime_command_arguments.md)
+[InTime Server](private_cloud_administration.md)  
+[Tcl Reference Guide](tcl_reference.md)   
+[InTime Arguments](intime_command_arguments.md)  
 
 Release Notes
 ------------------- 
