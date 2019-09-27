@@ -1,40 +1,42 @@
 Deciding which recipe to use
 ============================
 
-The InTime flow is executed using Tcl scripts called *Recipes*. These are different optimization approaches in the InTime flow for different design conditions. For an overview of the InTime flow, see the [intime flow](intime_flow.md) page.
+The InTime flow executes Tcl scripts called *Recipes*. These are different optimization approaches for specific design conditions. For an overview of the InTime flow, see the [intime flow](intime_flow.md) page.
 
-Knowing which recipe to run for a specific design stage or problem is important. To start a recipe in the InTime GUI, just click the *Optimize* button.
+Knowing which recipe to run for a certain design or problem is important. To start a recipe in the InTime GUI, just click the *Optimize* button.
 
-When using command line mode, use the following commands.
+In commandline mode, use the following commands.
 
     # List the available recipes:
     plunify> flow recipes list
     "intime_default" "placement_seed_exploration" ...
 
-    # Run a recipe:
+    # Run the InTime Default recipe:
     plunify> flow run_recipe intime_default
 
+## Understanding InTime Optimization Phases ##
 
-## Understanding the InTime Optimization Phases ##
+The FPGA tools offers many build parameters that affect an FPGA design at a global as well as localized block level. InTime determines the optimum build parameters and constraints for your design. To deal with an enormous design space, InTime uses machine learning techniques and domain-specific heuristics to predict and narrow down the best parameters and constraints. To maximize performance closure effectiveness, it is necessary to generate sufficient data points from build results and learn from past results. There are two phases to the optimization process: Phase 1 is the “Learning” cycle and Phase 2, the “Last-Mile”.
 
-The FPGA tools offers many build parameters that affect an FPGA design on a global as well as local block level. InTime’s goal is to determine the optimum build parameters for the design. To deal with an enormous design space consisting of countless combinations of parameters, InTime uses machine learning techniques and domain-specific heuristics to predict and narrow down the best parameters. To maximize timing closure effectiveness, it is necessary to generate sufficient data points from build results and learn from past results. There are two phases to the optimization process: Phase 1 is the “Learning Lifecycle” and Phase 2, “Last-Mile Optimization”.
+**Phase 1: Learning**    
+In this phase, the recommended methodology is to progressively optimize a design over several rounds of synthesis and place-and-route builds in an iterative “build-and-learn” cycle.
 
-**Phase 1: Learning Lifecycle**    
-In this phase, the recommended InTime Methodology is to progressively optimize a design over several rounds of synthesis and place-and-route builds in an iterative “build-and-learn” lifecycle.
-
-**Phase 2: Last-Mile Optimization**    
-The second phase begins when at least one of the results is close to meeting the performance target or if results have stopped improving in Phase 1. In the former case, the optimization relies on specific techniques that stimulate minor (compared to those in Phase 1) variations in the results. There are two types of optimizations in this phase:  
+**Phase 2: Last-Mile**    
+The second phase begins when at least one of the Learning results is close to meeting your performance target or if results have stopped improving in Phase 1. In the former, the optimization relies on specific techniques that stimulate relatively non-deterministic (compared to those in Phase 1) variations in the results. There are two types of optimizations in this phase:  
 1. **Random** - Running placement exploration, effort levels and exploiting clock uncertainties.  
-2. **Incremental** - Using a particular build to run post-route physical optimization iteratively.
+2. **Incremental** - Using a particular build to run iterative physical optimizations.
 
-Using this approach, the Phase 1 recipes should be used to improve the original TNS or WNS first, followed by Phase 2 recipes. The ideal effect is highlighted below in the chart.
+Using this approach, run Phase 1 recipes to improve the TNS or WNS first, followed by Phase 2 recipes. The ideal effect is highlighted in the chart below.
 ![Demonstrating InTime's Approach To Timing Closure](images/recipes/recipes_multiple_jobs_analysis.png)
 
-For more information, please refer to the whitepapers [here](https://www.plunify.com/en/whitepapers/).
+For more information, refer to our whitepapers [here](https://www.plunify.com/en/whitepapers/).
 
-## Phase 1: Learning Lifecycle Recipes ##
+## Phase 1: Learning Recipes ##
 
-Also referred to as **educated recipes**, InTime machine learning capabilities to learn from previous results' training data and produce smarter strategies on subsequent runs. There are 4 such recipes.
+Also referred to as **educated recipes**, InTime machine learning capabilities to learn from previous results' and produce smarter strategies on subsequent runs. There are multiple Learning recipes.
+
+!!! note "Recipe Availability"
+    Different recipes may be available across different FPGA vendor tools.
 
 ### Hot Start 
 
@@ -59,48 +61,49 @@ This recipe behaves the same as the InTime Default Recipe, but it runs an additi
 This recipe analyzes existing results and explores regions close to the good results so far. Instead of exploring too many settings, this recipe will lock down settings that are already good and only explore a subset of settings. In the figure below, deep dive recipe gives better results over the default recipe. 
 ![Deep Dive Recipe](images/recipes/default_deepdive.jpg)
 
-Note that there must be sufficient results (from Default or HotStart) in order for deep dive to work properly.
+Note that there must be a sufficient number of results in order for Deep Dive to work properly.
 
+### SSI Exploration 
 
-## Phase 2: Next Steps / Last-Mile Recipes 
+Targeted at multi-die devices, this recipe analyzes the current placement and re-distribute resources across dies in order to achieve a good balance in per-die utilization and inter-die crossings.
 
-Once the machine learning recipes has produced a good result which is very close to achieving the design goals, it is time for Phase 2. The recipes here can be used to "push" the design over the finish line, achieving the design goal.
+## Phase 2: Last-Mile Recipes 
 
-To do so, **a parent revision must be selected**. Right-click on the best strategy and set the result as the parent
-revision of the next round as shown below
+Once the Learning recipes have produced a good result that is very close to achieving your design goals, it is time for Phase 2.
+
+To do so, **a parent revision must be selected**. Right-click on the best strategy/result so far and set the result as the parent revision of the next round as shown below
 ![Set Custom Parent Revision](images/recipes/recipes_set_parent_revision.png)
 
 Once the custom parent revision has been set, it will be marked with a star as shown below
 ![Star Icon Used To Indicate Custom Parent Revision](images/recipes/recipes_set_parent_revision_done.png)
 
-!!! Tip "Tcl Mode"
+!!! tip "Tcl Mode"
     The `flow set parent_revision_name` and `flow set parent_revision_job_id` commands can be used.
 
+!!! note "Recipe Availability"
+    Different recipes may be available across different FPGA vendor tools.
 
-
-### Extra Opt (Vivado only)
+### Extra Opt Exploration
 
 This recipe iteratively runs placement, physical synthesis, and routing with different switches to guide the results towards the design goal. In a typical scenario, iteratively placing a design makes the tools work harder on optimizing it, improving the timing performance in the process.
 
-### Placement Exploration (Vivado only)
+### Placement Exploration
 
 This recipe finds and change the location of a register to stimulate placement variations. The effect is seemingly random like running placement seeds, which Vivado does not provide anymore.
 
-### Clock Margin (Vivado only)
+### Clock Margin Exploration
 
 This recipe varies the clock uncertainty to trigger variations in the timing. By default, InTime will control the degree of clock margin, increasing or decreasing the value by 0.05ns each time. This can be configured by the user. 
 
-### Placement Seed Exploration (Quartus only)
+### Placement Seed Exploration
 
 This recipe explores the effect of placement seeds on the design goal. This recipe changes the placement seed setting on the parent revision.
 
-
-### Effort Level Exploration (Quartus only)
+### Effort Level Exploration
 
 This recipe explores the effect of different effort levels on the design goal. This recipe changes the effort level setting on the parent revision.
 
-
-### Seeded Effort Level Exploration (Quartus only)
+### Seeded Effort Level Exploration
 
 This recipe performs exploration of seeds on best effort level results using the following steps:
 
@@ -114,11 +117,8 @@ The expected project history after running this recipe with a custom parent revi
 
 ![Expected Results Of *Seeded Effort Level Exploration* Recipe](images/recipes/project_history_seeded_effort_level_exploration.png)
 
-
 !!! tip
     When running this recipe, the `runs_per_round` property specifies the number of seeds that will be run on the top `rounds` effort levels found.
-
-
 
 ## General Recipes
 
@@ -128,20 +128,18 @@ There are general recipes which have different use-cases as described in the des
 
 This recipe simply builds the current active revision or design run in your project. Note that this happens on the run target specified by the `initial_compilation` property.
 
-### Compile with a guide file (Vivado only)
+### Compile with a Guide File
 
-This recipe uses Vivado's incremental compilation behaviour. Using an existing (older version) DCP file, it will only redo placing and routing logic that has changed. 
-
+This recipe uses an existing Design Checkpoint file as a reference, and applies incremental compilation behaviour to re-run placement and routing for logic that has changed compared to the reference netlist.
 
 !!! note
-    When running this recipe, make sure the DCP exists. InTime will typically save the generated DCP up to 14 days in the working folders, e.g.  "plunify.jobs/<job ID>"
-
+    When running this recipe, make sure the Design Checkpoint (DCP) exists. InTime typically saves the generated DCP in the working folders, e.g.  "plunify.jobs/<job ID>"
 
 ### Rerun Strategies
 
-This recipe allow the user to rerun previously generated strategies. A typical use case is when a design change is required after timing closure was achieved on the design using a previous InTime strategy. After the design was changed, the *good* strategy can be rerun on the changed design using this recipe.
+This recipe allows the user to re-run previously built strategies. A typical use-case is when the design changes after timing closure was achieved using a previous InTime strategy. Although the design has changed, *good* strategies can be re-run using this recipe.
 
-When this recipe is selected, checkboxes will be shown next to strategies in the project history, allowing the user to select the strategies to rerun. This is illustrated in
+When this recipe is selected, checkboxes will appear next to strategies in your project build history. Check to select the strategies to rerun. This is illustrated in
 
 ![Selecting Strategies To Rerun Using *Rerun Strategies* recipe.](images/recipes/project_history_rerun_checkboxes.png)
 
