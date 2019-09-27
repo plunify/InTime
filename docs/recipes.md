@@ -130,7 +130,7 @@ This recipe simply builds the current active revision or design run in your proj
 
 ### Compile with a Guide File
 
-This recipe uses an existing Design Checkpoint file as a reference, and applies incremental compilation behaviour to re-run placement and routing for logic that has changed compared to the reference netlist.
+This recipe uses an existing Design Checkpoint file as a reference, and applies incremental compilation behaviour to re-run placement and routing for logic that has changed compared to the reference netlist. When this recipe is selected, checkboxes will appear next to strategies in your project build history. Check to select the strategy (pick only one) to use as a reference.
 
 !!! note
     When running this recipe, make sure the Design Checkpoint (DCP) exists. InTime typically saves the generated DCP in the working folders, e.g.  "plunify.jobs/<job ID>"
