@@ -4,25 +4,12 @@ How to use project setting filters
 Overview
 --------
 
-Project setting filters allows the user to have full control over the
-settings which are included in the InTime generated strategies. The
-following setting filters are available:
+Project setting filters allows the user to have full control over the settings which are included in the InTime generated strategies. The following setting filters are available:
 
 -   **Whitelist**: Limits the settings in the generated strategies to
-    the settings which are part of the whitelist. Items in the whitelist
-    can either be specified using just the name of a setting, or using a
-    setting name and setting value. When just the setting name is
-    specified, all possible values for the setting are available for the
-    strategy algorithm to use. When the setting name and a setting value
-    is specified, strategy algorithms are only allowed to assign the
-    specific value to the setting.
+    the settings which are part of the whitelist. 
 -   **Blacklist**: Excludes the settings in blacklist from the generated
-    strategies. Items in the blacklist can either be specified using
-    just the name of a setting, or using a setting name and setting
-    value. When just the setting name is specified, all possible values
-    for the setting are excluded. When the setting name and a setting
-    value is specified, strategy algorithms are only allowed to assign
-    non-blacklisted values to the setting.
+    strategies. 
 -   **Locklist**: Locks the settings in the locklist down to specific
     values. Items in the locklist must be specified using both a setting
     name and setting value. Values in a locklist is different from name
@@ -31,18 +18,12 @@ following setting filters are available:
     only limits the setting to the specified value *if the setting is
     used* by the strategy algorithm.
 
-Using Setting filters GUI
--------------------------
+## Using Setting Filters GUI
 
 Setting filters are managed through an easy to use GUI found under
-[Current Project]{.title-ref} -\> [Setting Filters]{.title-ref} and
-shown in
-`Figure #figure-tips-and-tricks-setting-filters-gui`.
+[Current Project] -\> [Setting Filters] as shown below
 
- {#figure-tips-and-tricks-setting-filters-gui}
-![Setting Filters
-GUI](images/tips_and_tricks/setting_filters_gui.png)
-
+![Setting Filters GUI](images/tips_and_tricks/setting_filters_gui.png)
 
 In addition to allowing modification of the project's setting filters,
 this GUI also allows verification of setting filters and previewing the
@@ -51,13 +32,9 @@ exploration space for a set of filters.
 Note that many recipes in InTime adds or removes entries from the
 project's setting filters while running. When the setting filters GUI
 is opened while a recipe is running, the actual setting filters used for
-the running job can be inspected, as shown in figure
-`Figure #figure-tips-and-tricks-setting-filters-gui-busy`.
+the running job can be inspected, as shown 
 
- {#figure-tips-and-tricks-setting-filters-gui-busy}
-![Setting Filters GUI While Recipe Is
-Running](images/tips_and_tricks/setting_filters_gui_busy.png)
-
+![Setting Filters GUI While Recipe Is Running](images/tips_and_tricks/setting_filters_gui_busy.png)
 
 The documentation of each recipe provides details of any changes the
 recipe makes to the project's setting filters while running (refer to
@@ -71,25 +48,18 @@ actual setting filters used for a specific job.
 InTime supports saving and loading custom setting filter templates.
 Templates can either be exported directly from the setting filters GUI,
 or templates can be created from existing strategies using the right
-click context menu as shown in
-`Figure #figure-tips-and-tricks-setting-filters-templates`.
+click context menu as shown
 
- {#figure-tips-and-tricks-setting-filters-templates}
-![Exporting Setting Filter
-Templates](images/tips_and_tricks/setting_filters_export_template.png)
+![Exporting Setting Filter Templates](images/tips_and_tricks/setting_filters_export_template.png)
 
 
 Once a setting filter has been created, it can be applied to the
 existing setting filters of a project through using the [More
-Action]{.title-ref} -\> [Apply Existing Template]{.title-ref} action in
-the setting filters GUI.
+Action] -\> [Apply Existing Template] action in the setting filters GUI.
 
-Using Tcl interface
--------------------
+## Using Tcl interface
 
-Using the Tcl interface, setting filters are specified using the
-`project setting_filters` command and its sub commands. To get an
-overview of all current setting filters for a project, use the
+Using the Tcl interface, setting filters are specified using the `project setting_filters` command and its sub commands. To get an overview of all current setting filters for a project, use the
 `project setting_filters` command:
 
     plunify> project setting_filters
@@ -133,8 +103,7 @@ Some of the common setting filters management commands are listed below.
     # for the open project
     project setting_filters available_settings
 
-Examples
---------
+## Examples
 
 ### Educated algorithm usage example
 
@@ -192,43 +161,16 @@ configuration.
     Locklist:
     Empty
 
-### Oneshot algorithm usage: Example 2
-
-Another `oneshot` is a Quartus II project for which the following
-exploration needs to be done:
-
--   Exploration of all possible values for
-    `ROUTER_TIMING_OPTIMIZATION_LEVEL` is required.
--   Exploration of all possible values for
-    `PLACEMENT_EFFORT_MULTIPLIER`, except `0.5` and `1.0`, is required.
--   `ROUTER_REGISTER_DUPLICATION` must be locked down to `ON` ignoring
-    whatever value is assigned to it in the current project revision.
--   Existing settings in the current project revision must be ignored.
-
-This can easily be accomplished using the following setting filters and
-setting `strategy_settings_scope` = `restrictive` in the flow
-configuration.
-
-    Whitelist:
-    "ROUTER_TIMING_OPTIMIZATION_LEVEL" "PLACEMENT_EFFORT_MULTIPLIER"
-
-    Blacklist:
-    "PLACEMENT_EFFORT_MULTIPLIER::0.5" "PLACEMENT_EFFORT_MULTIPLIER::1.0"
-
-    Locklist:
-    "ROUTER_REGISTER_DUPLICATION::ON"
 
 Understanding how setting filters work
 --------------------------------------
 
 Setting filters are powerful and gives the user exact control over which
 settings in the project InTime touches.
-`Figure #figure-tips-and-tricks-setting-filters-trimming-process` shows the strategy generation process and how InTime trims
+The diagram shows the strategy generation process and how InTime trims
 the exploration space using the project's setting filters.
 
- {#figure-tips-and-tricks-setting-filters-trimming-process}
-![Overview Of Exploration Space Trimming
-Process](images/tips_and_tricks/strategy_generation_state_machine.png)
+![Overview Of Exploration Space Trimming Process](images/tips_and_tricks/strategy_generation_state_machine.png)
 
 
 As shown in the above diagram, InTime prioritizes the settings filters
@@ -240,16 +182,9 @@ blacklist.
 
 Note that in addition to settings filters, the `strategy_settings_scope`
 flow configuration property should also be considered when determining
-which settings will be part of the final strategy (this is illustrated
-as well in the above diagram). See the property's description in
-`flow-properties-strategy-related-properties`{.interpreted-text
-role="ref"} for more information. Also note that setting filters are
+which settings will be part of the final strategy. Also note that setting filters are
 saved on a per project basis in the *\<project\_file\>.intime* file in
 the project's directory.
 
 !!! tip
-    Any changes made to the project's setting filters by a recipe are
-reverted when the recipe completes. Use the `job summary <job id>` Tcl
-command to view the actual setting filters used for a specific job.
-
-'
+    Any changes made to the project's setting filters by a recipe are reverted when the recipe completes. Use the `job summary <job id>` Tcl command to view the actual setting filters used for a specific job.

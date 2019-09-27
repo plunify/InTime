@@ -66,7 +66,7 @@ When you have obtained a good result, you can export it to your FPGA software to
 To export a result for an XPR project,
 
 1.  *Right-click* the desired result and choose "Export". In the example
-    below, we choose the revision \"explore\_1\".
+    below, we choose the revision "explore_1".
 2.  You can apply the selected strategy to your project as a new
     revision or to the default revision. See
     `Figure #figure-quickstart-vivado-export-result`{.interpreted-text
@@ -81,8 +81,8 @@ To export a result for an XPR project,
 
 
 4.  After exporting, open this project in your FPGA software. The
-    revision that you exported, *explore\_1*, is now 2 new runs named
-    *explore\_synth\_1* and *explore\_impl\_1* for the synthesis and
+    revision that you exported, *explore_1*, is now 2 new runs named
+    *explore_synth_1* and *explore_impl_1* for the synthesis and
     implementation portions respectively.
 
 ![Switch to the exported revision](images/quickstart/xilinx_vivado.png)
@@ -101,20 +101,20 @@ These values are rounded to 2 decimal places in Vivado)
 
 To export a result for a DCP checkpoint,
 
-1.  *Right-click* the desired result and choose **"Export \Save
-    Strategy to Tcl Script\..."**. In the example below, we choose the
-    revision \"explore\_1\".
-2.  You can save the exported Tcl script *apply\_explore\_1.tcl* into
+1.  *Right-click* the desired result and choose **"Export Save
+    Strategy to Tcl Script..."**. In the example below, we choose the
+    revision "explore_1".
+2.  You can save the exported Tcl script *apply_explore_1.tcl* into
     any directory. See
     `Figure #figure-quickstart-vivado-export-result-dcp`{.interpreted-text
     role="num"} for available export options.
 
-![Export result via Save Strategy to Tcl Script\...](images/quickstart/export_result_vivado_dcp.png)
+![Export result via Save Strategy to Tcl Script...](images/quickstart/export_result_vivado_dcp.png)
 
 
 3.  Make a backup copy of the DCP checkpoint, and open it in Vivado.
 4.  Go to the Tcl Console and source the exported
-    *apply\_explore\_1.tcl* to apply the strategy and start compiling.
+    *apply_explore_1.tcl* to apply the strategy and start compiling.
 
 ![Apply the exported Tcl script](images/quickstart/xilinx_vivado_tclconsole.png)
 

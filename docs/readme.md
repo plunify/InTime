@@ -9,17 +9,25 @@ Welcome to the InTime documentation. For support, please contact us at <help@plu
 Contents
 ========
 [Home](index.md)  
-[Methodology](intime_flow.md)
+[Flow Overview](intime_flow.md)
 
 Installation
 -------------
-[Single Seat (Basic) - Under construction]()  
-[Multiple Seats (Group/Enterprise)  - Under construction]()
+[Single Seat](installation_basic.md)  
+[Multiple Seats](installation_enterprise.md)
+
+Configuration 
+-------------
+[Single Seat](configuration_basic.md)
+[Multiple Seats](configuration_enterprise.md)
+[Using Web-based Portal](configuration_portal.md)
+[LSF/SGE/PBS](configuration_lsf.md)
 
 Getting Started
 ------------------- 
 [GUI Mode](quickstart.md)  
 [Tcl Script Mode](quickstart_tcl.md)
+[Getting Started (Videos)](quickstart_video.md)
 
 [Navigating the GUI](gui.md)  
 [Selecting Recipes](recipes.md)  
@@ -33,26 +41,30 @@ Analyse Results
 
 Using Tcl Scripts
 -------------------
-[Project Mode](project_mode.md)  
-[Non-Project Mode](non_project_mode.md)
+[Script Mode](script_mode.md)  
+
+Using Plunify Cloud
+-------------------
+[Plunify Cloud](plunify_cloud.md)
+
+Using InTime Agents
+--------------------
+[InTime Agent](agent.md)
 
 Advanced Techniques
 -------------------
 [Constrain Strategies with Settings Filters](setting_filters.md)
-[Using Custom Strategies](custom_strategies.md)  
-[Reduce RunTime]()  
-[Leverage on Previous Results]()  
-[Controling Multiple Seats]()  
-[Running on Plunfy Cloud]()
+[Using Custom Strategies](custom_strategies.md)
+[Reduce RunTime with Post Placement Estimates](post_placement.md)
+[Using hook scripts](hook_scripts.md)
 
-Other Commands
+Command Reference:
 -------------------
-[Private Cloud Console](private_cloud_administration.md)  
-
-Others
-------------------- 
+[InTime Server](private_cloud_administration.md)
 [Tcl Reference Guide](tcl_reference.md)  
-[Release Notes]()  
-[Tips & Tricks](tips_and_tricks.md)  
-[Run Targets](run_targets.md)  
-[QuickStart for Quartus](quickstart_quartus.md)  
+[InTime Arguments](intime_command_arguments.md)
+
+Release Notes
+------------------- 
+[Release Notes](release_notes.md)  
+

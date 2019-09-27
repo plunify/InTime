@@ -1,69 +1,48 @@
 Flow Properties
 ===============
 
-Before clicking the "Optimize" button, please specify the required
-build resource parameters, most importantly, the number of
-compilations, the number of rounds to run, and finally the number of
-servers or builds in parallel.
+Flow properties control the InTime execution sequence (See [intime_flow](intime_flow.md)). The following sections explain these properties.
+
+Before clicking the "Optimize" button, please specify the required build resource parameters, most importantly, the number of compilations, the number of rounds to run, and finally the number of servers or builds in parallel.
 
 !!! tip
-    When selecting the *Private Cloud* run target, please make sure your
-    Private Cloud is properly configured as described in the InTime
-    Configuration Guide.
+    When selecting the *Private Cloud* run target, please make sure your Private Cloud is properly configured as described in the InTime [Configuration Guide](configuration_enterprise.md).
 
-Flow properties control the InTime execution sequence (Overview:
-`intime_flow`). The following sections explain these properties.
 
-Not every property applies to all flows, for example, when using the
-Local run target, properties for Remote run targets are not applicable.
-In other cases, Recipes may override certain flow properties
-and you will not be able to set those. One example is the strategy
-algorithm which automatically set to the \"educated\" strategy when
-running the `recipes_intime_default`.
-InTime disables properties which are not applicable to the current flow
-and explains why in each property's tooltip.
+Not every property applies to all flows, for example, when using the Local run target, properties for Remote run targets are not applicable. In other cases, Recipes may override certain flow properties and you will not be able to set those. One example is the strategy algorithm which automatically set to the "educated" strategy when running the `recipes_intime_default`. InTime disables properties which are not applicable to the current flow and explains why in each property's tooltip.
 
-When using InTime in Tcl command line mode, you can change flow
-properties via the `flow` series of commands. For example:
+When using InTime in Tcl command line mode, you can change flow properties via the `flow` series of commands. For example:
 
-    # Set the value of a property:
-    flow set run_target local
-    # Get the value of a property:
-    set run_target_value [flow get run_target]
-    # Show current flow configuration:
-    flow properties
+```tcl
+# Set the value of a property:
+flow set run_target local
+# Get the value of a property:
+set run_target_value [flow get run_target]
+# Show current flow configuration:
+flow properties
+```
 
-Throughout the sections below, the Tcl names used for property names and
-their possible values are shown next to the equivalent InTime GUI
-strings, formatted like (`this`).
+Throughout the sections below, the Tcl names used for property names and their possible values are shown next to the equivalent InTime GUI strings, formatted like (`this`).
 
-General Properties 
---------------------------------------------------------
+## General Properties 
 
-Before clicking the "Optimize" button, please specify the required
-build resource parameters, most importantly, the number of
-compilations, the number of rounds to run, and finally the number of
-servers or builds in parallel.
+Before clicking the "Optimize" button, please specify the required build resource parameters, most importantly, the number of compilations, the number of rounds to run, and finally the number of servers or builds in parallel.
 
 !!! tip
-    When selecting the *Private Cloud* run target, please make sure your
-    private cloud is properly configured as described in the InTime
-    Configuration Guide.
+    When selecting the *Private Cloud* run target, please make sure your private cloud is properly configured as described in the InTime Configuration Guide.
 
 These properties control the most important aspects of the flow.
 
 -   **Run Target** (`run_target`): Specifies where a job is compiled.
     For details on the different run targets, see
-    `run_targets`. Default: depends on the
-    available license. When no license is registered the default is
+    `run_targets`. Default: depends on the available license. When no license is registered the default is
     `plunify_cloud`, otherwise the default is `local`.
 
-    > -   *Local* (`local`): Run strategies on a single, standalone machine where
-    >     InTime is also being run.
-    > -   *Private Cloud* (`private_cloud`): Run strategies in your internal server farm
-    >     using the InTime `run-targets-private-cloud`.
-    > -   *Plunify Cloud* (`plunify_cloud`): Run strategies on a Plunify-managed cloud
-    >     using the `run-targets-plunify-cloud`.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Local* (`local`)| Run strategies on a single, standalone machine where InTime is also being run.|
+    |*Private Cloud* (`private_cloud`)| Run strategies in your internal server farm using the InTime `run-targets-private-cloud`.|
+    |*Plunify Cloud* (`plunify_cloud`)| Run strategies on a Plunify-managed cloud using the `run-targets-plunify-cloud`.|
 
 -   **Runs Per Round** (`runs_per_round`): The number of strategies to
     compile per iteration. You can set this number to 0 in which case InTime
@@ -77,19 +56,17 @@ These properties control the most important aspects of the flow.
     consists of one or more strategies). Similar to Runs Per Round, the
     more rounds you run, the more effective InTime's learning capabilities become.
     Valid Range: `1-100`. The total number of runs will be
-    `runs_per_round` \* `rounds`.
+    `runs_per_round` * `rounds`.
 
 -   **Concurrent Runs** (`concurrent_runs`): The number of strategies to
     compile in parallel. The context of concurrency and the default
     value depends on the selected run target:
 
-    > -   *Local*: The number of parallel builds on a single machine.
-    >     Default: `1`.
-    > -   *Private Cloud*: The number of builds across multiple machines to assign to this job.
-    >     Default: The concurrent run limit of the private cloud
-    >     license.
-    > -   *Plunify Cloud*: The number of Plunify Cloud servers to assign to this job.
-    >     Default: `100`.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Local* |  The number of parallel builds on a single machine. Default: `1`.|
+    |*Private Cloud*| The number of builds across multiple machines to assign to this job. Default: The concurrent run limit of the private cloud license.|
+    |*Plunify Cloud*| The number of Plunify Cloud servers to assign to this job. Default: `100`.|
 
 Goal Related Properties 
 -----------------------
@@ -98,22 +75,19 @@ Properties related to the goals of the InTime flow.
 
 -   **Recipe Goal** (`goal`): Design goal to aim for. Default: `speed`.
 
-    > -   *Speed - TNS* (`speed_tns`): Achieve timing closure by
-    >     attempting to minimize the design's *Total Negative Slack
-    >     (TNS)* (also referred to as *Timing Score* by some FPGA
-    >     software).
-    > -   *Area* (`area`): Reduce device utilization.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Speed - TNS* (`speed_tns`) | Achieve timing closure by attempting to minimize the design's *Total Negative Slack (TNS)* (also referred to as *Timing Score* by some FPGA software).|
+    |*Area* (`area`) | Reduce device utilization.|
 
--   **Goal Based Target** (`goal_based_target`): The target result to
-    aim for. Default: `0`. The value represents the following, depending
-    on the selected `goal`:
-
-    > -   *Speed - TNS* (`speed_tns`): The TNS to aim for.
-    > -   *Area* (`area`): The device utilization percentage to aim for.
+-   **Goal Based Target** (`goal_based_target`): The target result to aim for. Default: `0`. The value represents the following, depending on the selected `goal`:
     
--   **Stop When Goal Met** (`control_stop_when_goal_met`): When true,
-    stop as soon as one of the generated strategies meets the design
-    goal. Otherwise, continue until the recipe completes. Default:
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Speed - TNS* (`speed_tns`)| The TNS to aim for.|
+    |*Area* (`area`)| The device utilization percentage to aim for.|
+    
+-   **Stop When Goal Met** (`control_stop_when_goal_met`): When true, stop as soon as one of the generated strategies meets the design goal. Otherwise, continue until the recipe completes. Default:
     `true`.
 
 Parent Revision Properties 
@@ -128,16 +102,12 @@ while parent revisions of subsequent rounds are called *custom parent*
 revisions. Finally, when opening a project, InTime detects the active
 revision / run in the project and keeps track of it.
 
--   **Initial Compilation** (`initial_compilation`): The Run Target to
-    use when InTime builds the root revision of the design. Default:
-    `local`.
+-   **Initial Compilation** (`initial_compilation`): The Run Target to use when InTime builds the root revision of the design. Default: `local`.
 
-    > -   *Local* (`local`): Build using the machine on which InTime is
-    >     running.
-    > -   *Skip* (`skip`): If the root revision's results are not
-    >     required for comparison, choose this option to reduce runtime.
-    >     Some recipes, such the seed exploration ones, 
-    >     automatically skip building the root revision.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Local* (`local`)| Build using the machine on which InTime is running.|
+    |*Skip* (`skip`)  | If the root revision's results are not required for comparison, choose this option to reduce runtime. Some recipes, such the seed exploration ones,  automatically skip building the root revision.|
 
 -   **Name** (`parent_revision_name`): The topmost revision in a round
     of builds / strategoes. Initially, this is the FPGA project's
@@ -156,7 +126,7 @@ revision / run in the project and keeps track of it.
 
 The InTime GUI makes it easy to set any result in a project's history
 as the custom parent revision of the next iteration by right-clicking on the
-result in the project build history, and selecting \"Set As Parent Revision\".
+result in the project build history, and selecting "Set As Parent Revision".
 See `recipes_further_exploration` for more
 information on setting a custom parent revision.
 
@@ -172,18 +142,16 @@ available depending on the FPGA tool.
     to terminate builds based on timing results just 
     after placement. Default: `false`.
 
-    > -   *Post-Place TNS Limit(ns)*: (`post_place_tns_limit`) Total
-    >     Negative Slack value below which InTime will terminate
-    >     any build. Default: `-1000`
-    > -   *Post-Place Worst Setup Slack Limit(ns)*: (`post_place_wns_limit`)
-    >     Worst Setup Slack value below which InTime will terminate
-    >     any build. Default: `-0.9`
-    > -   *Post-Place Worst Hold Slack Limit(ns)*: (`post_place_whs_limit`)
-    >     Worst Hold Slack value below which InTime will terminate
-    >     any build. Default: `-0.9`
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Post-Place TNS Limit(ns)* (`post_place_tns_limit`) | Total Negative Slack value below which InTime will terminate any build. Default: `-1000`|
+    |*Post-Place Worst Setup Slack Limit(ns)*: (`post_place_wns_limit`) | Worst Setup Slack value below which InTime will terminate any build. Default: `-0.9`|
+    |*Post-Place Worst Hold Slack Limit(ns)*: (`post_place_whs_limit`) | Worst Hold Slack value below which InTime will terminate any build. Default: `-0.9`|
     
     When enabled, any of the Limit values meeting the threshold value results in
     InTime terminating the build.
+
+    Please refer to "[How to reduce run time with post placement estimates](post_placement.md)" for more information on how to use these options.
 
 -   **Force Continue** (`control_force_continue_when_no_results`): Normally
     InTime does not proceed to the next round of strategies if there are no
@@ -203,9 +171,9 @@ available depending on the FPGA tool.
     reusing synthesis results from the parent revision. Default: `false`.
     The following restrictions apply:
 
-    > -   Only supported for `educated`, `oneshot` strategy algorithms.
-    > -   Only supported when `initial_compilation` is `local`.
-    > -   Not available for the `plunify_cloud` run target.
+        - Only supported for `educated`, `oneshot` strategy algorithms.
+        - Only supported when `initial_compilation` is `local`.
+        - Not available for the `plunify_cloud` run target.
     
 -   **Reuse Routed Netlist** (`control_reuse_routed_netlist`):
     Indicates if the post-route parent revision circuit should be used
@@ -232,23 +200,13 @@ Strategy Related Properties
 
 Properties related to the generation of strategies.
 
--   **Algorithm** (`strategy_algorithm`): The approach to take. Default:
-    Controlled by the recipe.
+-   **Algorithm** (`strategy_algorithm`): The approach to take. Default: Controlled by the recipe.
 
-    > -   *Educated* (`educated`): This approach uses existing knowledge
-    >     in the InTime database to generate strategies which are
-    >     optimized for the design. The `training_data_filter` property
-    >     controls which correlations to apply when making decisions
-    >     during the generation of new strategies.
-    > -   *Custom* (`custom`): Uses strategies that you create. For
-    >     information on implementing custom strategy generation
-    >     algorithms please refer to
-    >     `advanced-concepts-custom-strategy-algorithms`.
-    > -   *Oneshot* (`oneshot`): This approach uses the
-    >     project's *whitelist* and *blacklist* as guides to generate
-    >     strategies containing all possible combinations of the
-    >     specified tool settings. The seed exploration recipes are
-    >     examples of how this approach works.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Educated* (`educated`) | This approach uses existing knowledge in the InTime database to generate strategies which are optimized for the design. The `training_data_filter` property controls which correlations to apply when making decisions during the generation of new strategies.|
+    |*Custom* (`custom`) | Uses strategies that you create. For information on implementing custom strategy generation algorithms please refer to `advanced-concepts-custom-strategy-algorithms`.|
+    |*Oneshot* (`oneshot`) | This approach uses the project's *whitelist* and *blacklist* as guides to generate strategies containing all possible combinations of the specified tool settings. The seed exploration recipes are examples of how this approach works.|
 
 -   **Custom Strategy** (`strategy_custom`): The name of the strategy to
     use when `strategy_algorithm` is set to `custom`.
@@ -274,19 +232,16 @@ Properties related to the generation of strategies.
 -   **Settings Scope** (`strategy_settings_scope`): How strategy
     settings are applied to the parent revision. Default: `additive`.
 
-    > -   *Additive* (`additive`): Add settings defined for the strategy
-    >     on top of existing settings of the parent revision. If a
-    >     setting exists both in the strategy as well as the parent
-    >     revision, the value defined for the strategy will be used.
-    > -   *Restrictive* (`restrictive`): Use only settings defined for
-    >     the strategy, omitting all existing settings of the parent
-    >     revision.
+    | Value           | Description           |
+    |-----------------|-----------------------|
+    |*Additive* (`additive`)| Add settings defined for the strategy on top of existing settings of the parent revision. If a setting exists both in the strategy as well as the parent revision, the value defined for the strategy will be used.|
+    |*Restrictive* (`restrictive`)| Use only settings defined for the strategy, omitting all existing settings of the parent revision.|
 
 -   **Strategy Prefix** (`strategy_prefix`): Each generated strategy is
     assigned a unique name within a job's context. This property
     allows control over the name used to derive strategy
     names. For example, if the strategy prefix is *calibrate*,
-    strategy names will typically be *calibrate\_1*, *calibrate\_2* etc.
+    strategy names will typically be *calibrate_1*, *calibrate_2* etc.
     Informative prefixes give a better idea of what a recipe does (refer
     to the recipes in InTime).
     
@@ -326,7 +281,7 @@ The following items can be cleaned up per strategy:
     creating, running and analyzing strategies. These include all files
     generated by the vendor tool as well as additional files created by
     InTime during result analysis. InTime puts all generated files in
-    the *\<project\_dir\>/plunify.jobs/\<job\_id\>* directory. When the
+    the *<project_dir\>/plunify.jobs/<job_id\>* directory. When the
     cleaning properties are not set to clean the generated files,
     the user can manually remove files. *Note:* InTime keeps specific files for
     in order to learn from the results. Those files are
@@ -423,20 +378,16 @@ generating strategies. Default:
     `FBGA`, `TQFP`.
 
 -   **DeviceSpeed:** Only apply previous learning outcomes linked to the
-    device speed grade of the open project's design. For example: `6`,
-    `7`.
+    device speed grade of the open project's design. For example: `6`, `7`.
 
 -   **Jobs:** Only apply previous learning outcomes linked to the
     specified jobs across all designs for which results are stored in
     your InTime runs database. Jobs can be specified using the following
     syntax:
 
-    > 1.  `=1,5,7`: Specify individual jobs as a comma separated list
-    >     preceded with `=`.
-    > 2.  `!=1,5,7`: Exclude individual jobs by placing a `!` in front
-    >     of the job number, for example: `!=1,5,7`
-    > 3.  `>5`: Specify job ranges. Supported operators include: `<`
-    >     `<=` `>` `<=`.
+    - `=1,5,7`: Specify individual jobs as a comma separated list preceded with `=`.
+    -  `!=1,5,7`: Exclude individual jobs by placing a `!` in front of the job number, for example: `!=1,5,7`
+    -  `>5`: Specify job ranges. Supported operators include: `<` `<=` `>` `<=`.
 
 The educated adjustment properties can be set in the Tcl console via the
 `training_data_filter` property. For example: :

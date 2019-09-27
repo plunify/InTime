@@ -1,9 +1,7 @@
-Private Cloud Administration Commands
-=====================================
+Private Cloud / InTime Server Administration Commands
+=====================================================
 
-The Private Cloud Administrator console allows the user to view the
-current status of any InTime job. It also has useful commands to query
-the InTime Server.
+The InTime Server console allows the user to view the current status of any InTime job. It also has useful commands to query the InTime Server.
 
 There are two modes; In user mode, the command prompt is displayed as
 `user>`. In admin mode, the command prompt is displayed as `admin>`.
@@ -26,7 +24,7 @@ directory. :
     user>
 
 Please note that admin mode is available to users running
-admin\_console(.sh/.bat) inside intimeserver. The InTime Server only
+admin_console(.sh/.bat) inside intimeserver. The InTime Server only
 allows localhost for admin access by default. The user has to start
 InTime Server with an additional argument to make admin mode available
 to all users.
@@ -73,11 +71,9 @@ Enable Private Cloud Console GUI
 
 For users with the InTime client installed on their machines, the
 private cloud console can be accessed from within the InTime GUI by
-enabling it under [View]{.title-ref} -\> [Private Cloud
-Console]{.title-ref} as shown in
-`Figure #figure-private-cloud-admin-open-gui`.
-
- {#figure-private-cloud-admin-open-gui}
+enabling it under [View] -\> [Private Cloud
+Console] as shown below
+ 
 ![Enabling The Private Cloud Console
 GUI](images/private_cloud_administration/show_private_console.png)
 
@@ -85,7 +81,7 @@ GUI](images/private_cloud_administration/show_private_console.png)
 When enabled a new tab will appear providing a private cloud console
 within the InTime GUI.
 
- {#figure-private-cloud-admin-gui}
+ 
 ![Private Cloud Console
 GUI](images/private_cloud_administration/console_tab.png)
 
@@ -262,13 +258,13 @@ value with the command `.cpu`
     | 1   | user10_00505621E3EE |       | user10 | FREE   | YES   | INTEL 2.7 | 4       | 4       | 0       |
     +-----+---------------------+-------+--------+--------+-------+-----------+---------+---------+---------+
 
-#### Change working directory for worker {#private_cloud_change_working_directory}
+#### Change working directory for worker 
 
 The example below shows how to change the working directory for worker.
 In normal condition, the working directory for the worker is located in
-/USER\_HOME/plunify folder. Due to low disk space, the next best
+/USER_HOME/plunify folder. Due to low disk space, the next best
 solution is to change the working directory to another location. Let say
-the new working directory is located in /tmp/worker\_jobs. Make sure
+the new working directory is located in /tmp/worker_jobs. Make sure
 user has permission to write to this new directory and it exists.
 
     user> .admin
@@ -429,18 +425,18 @@ other information.
 
 #### Server Properties Reference
 
--   **AUTO\_FLAG** Auto assign flag. The InTime Server automatically
+-   **AUTO_FLAG** Auto assign flag. The InTime Server automatically
     delegates jobs to workers when this is ON. This flag can be changed
     if a Private Enterprise license is in use. Another way to change
     this property is to supply the argument when starting the InTime
     Server. In Private Group license, it is always ON and read-only.
-    AUTO\_FLAG Value: on/off.
+    AUTO_FLAG Value: on/off.
 
 <!-- -->
 
     $ ./start_server.sh -auto off
 
--   **ADMIN\_CONSOLE\_PORT** Admin console port number. Default port for
+-   **ADMIN_CONSOLE_PORT** Admin console port number. Default port for
     admin console is 39942. If this port is being used, users can change
     this property via an argument when starting the InTime Server.
 
@@ -448,7 +444,7 @@ other information.
 
     $ ./start_server.sh -adminport 15888
 
--   **COMMUNICATION\_PORT** Communication port number. Default port for
+-   **COMMUNICATION_PORT** Communication port number. Default port for
     communication is 39940. If this port is being used, users can change
     this property via an argument when starting the InTime Server.
 
@@ -456,18 +452,18 @@ other information.
 
     $ ./start_server.sh -comport 15666
 
--   **CPUUTIL\_FLAG** CPU utilization flag. InTime Server will use the
-    CPUUTIL\_LIMIT property when assigning jobs to a worker.
-    CPUUTIL\_FLAG Value: on/off. Only those workers with utilization
-    equal or less than CPUUTIL\_LIMIT will be assigned.
--   **CPUUTIL\_LIMIT** Value: 0-100. Another way to change this property
+-   **CPUUTIL_FLAG** CPU utilization flag. InTime Server will use the
+    CPUUTIL_LIMIT property when assigning jobs to a worker.
+    CPUUTIL_FLAG Value: on/off. Only those workers with utilization
+    equal or less than CPUUTIL_LIMIT will be assigned.
+-   **CPUUTIL_LIMIT** Value: 0-100. Another way to change this property
     is via an argument when starting the InTime Server.
 
 <!-- -->
 
     $ ./start_server.sh -cpuutil on -cpulimit 50
 
--   **FILETRANSFER\_PORT** File transfer port number. Default port for
+-   **FILETRANSFER_PORT** File transfer port number. Default port for
     file transfer is 39941. If this port has been used, it can be
     changed via the appropriate argument when starting the InTime
     Server.
@@ -476,28 +472,28 @@ other information.
 
     $ ./start_server.sh -fileport 15777
 
--   **KEEP\_FILE\_FLAG** Keep the uploaded source and report files. The
+-   **KEEP_FILE_FLAG** Keep the uploaded source and report files. The
     default value is 3 days. The file will be kept in the respective
     folder for the specified number of days.
--   **KEEP\_REPORTS\_FLAG** Keep the uploaded report files. The default
+-   **KEEP_REPORTS_FLAG** Keep the uploaded report files. The default
     is NO. InTime Server will remove the report files after
-    KEEP\_FILE\_FLAG days.
--   **KEEP\_SOURCE\_FLAG** Keep the source files. Default is YES. Change
+    KEEP_FILE_FLAG days.
+-   **KEEP_SOURCE_FLAG** Keep the source files. Default is YES. Change
     the value to NO and InTime Server will remove the source files after
-    KEEP\_FILE\_FLAG days.
+    KEEP_FILE_FLAG days.
 -   **LOGLEVEL** The log level of InTime Server. Default is info. The
     log will be rolled over after midnight every day. The logs can be
-    found in INTIMESERVER\_HOME/logs/intimeserver.log. The rolled-over
+    found in INTIMESERVER_HOME/logs/intimeserver.log. The rolled-over
     logs will be named intimeserver.yyyy-MM-dd.log
--   **MATCHUSER\_FLAG** Match the USERID of worker. Default is YES. Job
+-   **MATCHUSER_FLAG** Match the USERID of worker. Default is YES. Job
     submitted by user will be assigned to workers that are started by
     the same user. If the USERID is blank, InTime Server will ignore
-    MATCHUSER\_FLAG and proceed to automatically assign the job.
--   **MEMUTIL\_FLAG** Memory utilization flag. InTime Server will use
-    the MEMUTIL\_FLAG when assigning jobs to a worker. MEMUTIL\_FLAG
+    MATCHUSER_FLAG and proceed to automatically assign the job.
+-   **MEMUTIL_FLAG** Memory utilization flag. InTime Server will use
+    the MEMUTIL_FLAG when assigning jobs to a worker. MEMUTIL_FLAG
     Value: on/off. Only those workers with memory equal or more than
-    MEMUTIL\_LIMIT in GB will be assigned jobs.
--   **MEMUTIL\_LIMIT** Value in Giga-Bytes (GB). Another way to change
+    MEMUTIL_LIMIT in GB will be assigned jobs.
+-   **MEMUTIL_LIMIT** Value in Giga-Bytes (GB). Another way to change
     is to supply the appropriate argument when starting the InTime
     Server.
 
@@ -505,7 +501,7 @@ other information.
 
     $ ./start_server.sh -memutil on -memlimit 4
 
--   **REMOTE\_ADMIN** InTime Server by default does not allow admin mode
+-   **REMOTE_ADMIN** InTime Server by default does not allow admin mode
     to be invoked via the admin console, only via the loop-back
     interface or localhost. Another way to change this behavior is via
     an argument when starting the InTime Server.
@@ -514,9 +510,9 @@ other information.
 
     $ ./start_server.sh -remoteadmin admin
 
--   **PRIORITY\_FLAG** InTime Server will usen this value to assign to
+-   **PRIORITY_FLAG** InTime Server will usen this value to assign to
     more workers or more CPU cores. The preferred method is to assign to
-    more workers. PRIORITY\_FLAG Value: worker/core. Another way to
+    more workers. PRIORITY_FLAG Value: worker/core. Another way to
     change this behavior is via an argument when starting the InTime
     Server.
 

@@ -63,7 +63,7 @@ This recipe analyzes existing results and explores regions close to the good res
 
 Note that there must be a sufficient number of results in order for Deep Dive to work properly.
 
-### SSI Exploration 
+### SSI Exploration (Beta)
 
 Targeted at multi-die devices, this recipe analyzes the current placement and re-distribute resources across dies in order to achieve a good balance in per-die utilization and inter-die crossings.
 
@@ -151,3 +151,5 @@ The expected project history after running this recipe with the selection shown 
 ### Custom Flow Recipe
 
 This recipe runs the InTime flow once with the specified flow configuration. Unlike the other InTime recipes, no properties in the flow configuration are controlled by the recipe, giving full control to the user. When using custom strategy algorithms, this recipe should be used in order to gain control over the `strategy_algorithm` property which is normally locked and controlled by other InTime recipes.
+
+To learn more about how to use this, refer to the [Custom Strategies](custom_strategies.md) page.
