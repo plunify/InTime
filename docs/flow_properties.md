@@ -278,11 +278,11 @@ Properties related to the generation of strategies.
     generate clock margin values for strategies. Default: `True`.
 
 -   **Clock Margin Initial Value** (`clock_initial_value`): Applicable
-    only to the Clock Margin Exploration recipe, set this property as the starting
+    only to the Clock Margin Exploration recipe, set this property (in ns) as the starting
     clock margin quantity to explore. Default: `0.05`
 
--   **Clock Margin Incrementing Value** (`clock_incrementing_value`): Applicable
-    only to the Clock Margin Exploration recipe, set this property as the
+-   **Clock Margin Increment** (`clock_increment_value`): Applicable
+    only to the Clock Margin Exploration recipe, set this property (in ns) as the
     clock margin quantity to increase for each strategy. Default: `0.05`.
 
 -   **Settings Scope** (`strategy_settings_scope`): How strategy
@@ -304,28 +304,28 @@ Properties related to the generation of strategies.
     Informative prefixes give a better idea of what a recipe does (refer
     to the recipes in InTime).
     
--   **Strategy Time Unit** (`strategy_time_unit`): Choose how InTime
+-   **Strategy Runtime Unit** (`strategy_time_unit`): Choose how InTime
     monitors build runtime - in Seconds, Minutes or Hours in order to
     terminate builds that exceed a certain runtime. Default: `Hours` 
 
 -   **Maximum Runtime** (`strategy_max_runtime`): The maximum allowed
     runtime (in hours) per strategy. Default: `12`, Valid Range: `0-48`.
 
--   **Auto-Optimizing Max Runtime** (`auto_max_runtime`): Set Maximum Runtime
+-   **Auto-Optimize Max Runtime** (`auto_max_runtime`): Adjust Maximum Runtime
     automatically based on the runtimes of the previous job. Default: `False`.
 
 -   **Auto-Sync Results** (`auto_sync_results`): Match your project path and name
     to existing results in your InTime database, and automatically link matching
     results to your project. Default: `True`.
     
--   **Strategy Retry If Failed** (`strategy_retry_count`): Due to unexpected events
+-   **Strategy Retries If Fail** (`strategy_retry_count`): Due to unexpected events
     like machine crashes or network outages, your InTime builds may fail.
     Specify the maximum number of attempts to re-build a strategy. Applies only to
     Private Cloud builds. Default: `3`.
 
--   **Delay Before Strategy Start** (`strategy_delay_interval`): In a Private Cloud
-    environment, sometimes you may not want all InTime builds to start simultaneously.
-    Specify the number of seconds between each strategy using this property.
+-   **Strategy Start Interval** (`strategy_delay_interval`): In a Private Cloud
+    environment, to load balance, you may not want all InTime builds to start simultaneously.
+    Specify the number of seconds between the start of each strategy using this property.
     Default: `5` seconds.
 
 Cleaning Properties 
