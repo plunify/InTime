@@ -50,7 +50,7 @@ The expected project history after running this with a default flow configuratio
 
 ![Expected Results Of *InTime Default* Recipe](images/recipes/project_history_intime_default.png)
 
-The effects of machine learning on a design can also be visualized using the *Multiple Job Analysis* plot in InTime's [Results Analysis](analyze/#multiple-job-analysis) mode. 
+The effects of machine learning on a design can also be visualized using the *Multiple Job Analysis* plot in InTime's [Results Analysis](analyze.html#multiple-job-analysis) mode. 
 
 ### InTime Default Extra 
 

@@ -39,9 +39,9 @@ Select the right project and click to open your FPGA project. If successful, the
 
 The next step is to select an InTime recipe. A recipe represents a compilation and learning flow. 
 
-- For **Vivado**, proceed to the next [section](#4a-using-vivado).
-- For **ISE**, click [here](#4b-using-ise) to jump to this section.
-- For **Quartus**, click [here](#4c-using-quartus) to jump to this section.
+- For **Vivado**, proceed to the next [section](#using-vivado).
+- For **ISE**, click [here](#using-ise) to jump to this section.
+- For **Quartus**, click [here](#using-quartus) to jump to this section.
 
 ---
 

@@ -76,16 +76,16 @@ On the bottom left is the **Flow Properties**. Flow properties specify how you w
 ## Session Log & Issues
 
 Right at the bottom, this tab displays the InTime session log. It will show the build status and errors (if any) that InTime encounters when it is running.
-![Session Log](/images/gui/session_log.png)
+![Session Log](images/gui/session_log.png)
 
 The Issue tab filters the session log and displays "Warnings" and "Errors" only.
-![Issues Log](/images/gui/issues_log.png)
+![Issues Log](images/gui/issues_log.png)
 
 ## Selected Results
 
 When you click on a result, the details are display in the **Selected Results** tab. There are 2 views, a results view and a settings view. This is controled with the radio buttons on the right.
 
-![selected results](/images/results/selected_results_combined.png)
+![selected results](images/results/selected_results_combined.png)
 To learn more about working and managing InTime results, refer to the [review results](results.md) page for more explanations.
 
 ## Tcl Console

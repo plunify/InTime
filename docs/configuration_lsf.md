@@ -4,7 +4,7 @@ InTime Configuration for LSF/SGE/PBS
 InTime supports 3 workload management platforms - LSF, SGE and PBS. This section explains how to start an InTime Agent on these platforms. 
 
 !!! important
-    Before you proceed with this section, please ensure that you have completed the configuration of the build environment, working directory as specified [here](configuration_enterprise/#configure-build-environment).
+    Before you proceed with this section, please ensure that you have completed the configuration of the build environment, working directory as specified [here](configuration_enterprise.html#configure-build-environment).
 
 Below is an overview of how InTime, InTime Server interacts with these platforms.
 
