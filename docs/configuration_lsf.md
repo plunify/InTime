@@ -115,9 +115,7 @@ admin.exec> bsub
 
 (Optional) Enter script arguments, use .end to exit session.
 
-admin.args> ${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background 
--platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
--remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
+admin.args> ${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
 
 Enter trigger based on the type, use .end to exit session.
 Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
@@ -141,9 +139,7 @@ admin.order> 0
 Action Type       : init
 Operating System  : linux
 Execute           : bsub
-Arguments         : ${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background 
--platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
--remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
+Arguments         : ${USER_ARGS} ${INTIME_HOME}/intime_agent.sh -mode background -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
 Trigger type      : con_runs
 Working Directory :
 Abort job if fail : 1
@@ -211,10 +207,8 @@ admin.order>0
 Action Type       : init
 Operating System  : linux
 Execute           : qsub
-Arguments         : ${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh
-    -intime_home /opt/tools/intime
--mode background -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
--remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
+Arguments         : ${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh -intime_home /opt/tools/intime
+-mode background -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
 Trigger type      : con_runs
 Working Directory :
 Abort job if fail : 1
@@ -254,9 +248,7 @@ admin.exec>qsub
 
 (Optional) Enter script arguments, use .end to exit session.
 
-admin.args${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME},
-IP=${INTIME_SERVER},COMPORT=${INTIME_PORT},REMOTE_JOB=${REMOTE_JOB_ID},
-MAX_RUNS=${AGENT_MAX_RUNS}
+admin.args>${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME}, IP=${INTIME_SERVER},COMPORT=${INTIME_PORT},REMOTE_JOB=${REMOTE_JOB_ID}, MAX_RUNS=${AGENT_MAX_RUNS}
 
 Enter trigger based on the type, use .end to exit session.
 Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
@@ -280,9 +272,7 @@ admin.order>0
 Action Type       : init
 Operating System  : linux
 Execute           : qsub
-Arguments         : ${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME},
-IP=${INTIME_SERVER},COMPORT=${INTIME_PORT},REMOTE_JOB=${REMOTE_JOB_ID},
-MAX_RUNS=${AGENT_MAX_RUNS}
+Arguments         : ${INTIME_HOME}/intime_agent.pbs -v INTIME_HOME=${INTIME_HOME},IP=${INTIME_SERVER},COMPORT=${INTIME_PORT},REMOTE_JOB=${REMOTE_JOB_ID},MAX_RUNS=${AGENT_MAX_RUNS}
 Trigger type      : con_runs
 Working Directory :
 Abort job if fail : 1
