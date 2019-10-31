@@ -10,7 +10,7 @@ The Design Analysis tab provides insights on the critical paths in the design. T
 ## How to use 
 
 ### Total Occurences
-Use the total occurences as an indication as to which paths are affecting most of your results. Prioritize the any changes to these paths. In the screenshot, there are 6 occurences in 4 jobs that were included in the analysis. The source and destination of the path, and each strategy and its worst slack is hidden/displayed.
+Use the total occurences as an indication as to which paths are affecting most of your results. Prioritize the any changes to these paths. In the screenshot, there are 6 occurences in 4 jobs that were included in the analysis. The source and destination of the path, and each strategy and its worst slack can be toggled to be shown or hidden.
 
 ![occurences](images/analyze/occurences.png) 
 

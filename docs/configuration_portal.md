@@ -1,6 +1,5 @@
-Configure InTime Server with a Web-based Portal
+InTime Server Web-based Portal
 ===============================================
-
 InTime Server v2.6.10 introduces a new, more user-friendly Admin Portal feature. The InTime Server Admin Portal allows users to configure InTime Server settings from a web browser, making configuration faster and easier. In this guide we will take a look at the different configuration options available in the Admin Portal.
 
 ## Accessing the Admin Portal

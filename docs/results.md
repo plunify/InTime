@@ -63,61 +63,38 @@ Strategies](images/getting_started/compare_strategies.png)
 
 When you have obtained a good result, you can export it to your FPGA software to verify the result. 
 
-To export a result for an XPR project,
+To export a result for an XPR/QPR/ISE project,
 
-1.  *Right-click* the desired result and choose "Export". In the example
-    below, we choose the revision "explore_1".
-2.  You can apply the selected strategy to your project as a new
-    revision or to the default revision. See
-    `Figure #figure-quickstart-vivado-export-result`{.interpreted-text
-    role="num"} for all available export options.
+1.  *Right-click* the desired result and choose "Export". In the example below, we choose the revision "explore_1".
 
-![Export result](images/quickstart/export_result_vivado.png)
-
+2.  You can apply the selected strategy to your project as a new revision or to the default revision. See below for all available export options.
+    ![Export result](images/quickstart/export_result_vivado.png)
 
 3.  You can accept the default revision name or specify a new one.
+    ![Provide a new revision name](images/quickstart/export_result_newname_vivado.png)
 
-![Provide a new revision name](images/quickstart/export_result_newname_vivado.png)
+4.  After exporting, open this project in your FPGA software. In the example below, it is a Vivado project. The revision that you exported, *explore_1*, is now a new run, named *explore_synth_1* and *explore_impl_1* for the synthesis and implementation portions respectively.
+    ![Switch to the exported revision](images/quickstart/xilinx_vivado.png)
 
+5.  To verify the result, re-run your project to check that the timing result is the same as what is reported in InTime. You can view the reports provided by the FPGA software to understand more about the design.
 
-4.  After exporting, open this project in your FPGA software. The
-    revision that you exported, *explore_1*, is now 2 new runs named
-    *explore_synth_1* and *explore_impl_1* for the synthesis and
-    implementation portions respectively.
+    ![View the result in the FPGA software](images/quickstart/xilinx_vivado_TNS.png)
+    The TNS and WNS values are equal to those reported by InTime. (Note: These values are rounded to 2 decimal places in Vivado)
 
-![Switch to the exported revision](images/quickstart/xilinx_vivado.png)
+**To export a result for a DCP checkpoint**
 
-
-5.  To verify the result, re-run your project to check that the timing
-    result is the same as what is reported in InTime. You can view the
-    reports provided by the FPGA software to understand more about the
-    design.
-
-![View the result in the FPGA software](images/quickstart/xilinx_vivado_TNS.png)
-
-
-The TNS and WNS values are equal to those reported by InTime. (Note:
-These values are rounded to 2 decimal places in Vivado)
-
-To export a result for a DCP checkpoint,
-
-1.  *Right-click* the desired result and choose **"Export Save
-    Strategy to Tcl Script..."**. In the example below, we choose the
+1.  *Right-click* the desired result and choose **"Export Save Strategy to Tcl Script..."**. In the example below, we choose the
     revision "explore_1".
+
 2.  You can save the exported Tcl script *apply_explore_1.tcl* into
-    any directory. See
-    `Figure #figure-quickstart-vivado-export-result-dcp`{.interpreted-text
-    role="num"} for available export options.
+    any directory. See below for available export options.
 
-![Export result via Save Strategy to Tcl Script...](images/quickstart/export_result_vivado_dcp.png)
-
+    ![Export result via Save Strategy to Tcl Script...](images/quickstart/export_result_vivado_dcp.png)
 
 3.  Make a backup copy of the DCP checkpoint, and open it in Vivado.
-4.  Go to the Tcl Console and source the exported
-    *apply_explore_1.tcl* to apply the strategy and start compiling.
+4.  Go to the Tcl Console and source the exported *apply_explore_1.tcl* to apply the strategy and start compiling.
 
-![Apply the exported Tcl script](images/quickstart/xilinx_vivado_tclconsole.png)
-
+    ![Apply the exported Tcl script](images/quickstart/xilinx_vivado_tclconsole.png)
 
 5.  The timing result should be the same as what is reported in InTime.
 
