@@ -187,10 +187,7 @@ admin.exec>qsub
 
 (Optional) Enter script arguments, use .end to exit session.
 
-admin.args>${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh
-    -intime_home <intime home folder, e.g. /opt/tools/intime> -mode background 
--platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} 
--remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
+admin.args>${USER_ARGS} -sync n -S /bin/sh ${INTIME_HOME}/intime_agent.sh -intime_home /your/intime_home -mode background -platform minimal -ip ${INTIME_SERVER} -comport ${INTIME_PORT} -remote_job ${REMOTE_JOB_ID} -max_runs ${AGENT_MAX_RUNS} -no_agent_limit
 
 Enter trigger based on the type, use .end to exit session.
 Triggers: ('1' for Single, '2' for Revision, '3' for Concurrent Runs) [3]
