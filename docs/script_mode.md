@@ -15,7 +15,9 @@ flow run_recipe "hot_start"
 
 Let's say you have saved the above as ```intimeflow.tcl```
 To run InTime in commandline mode, execute the following command:
+```
 <InTime installation dir>/intime.sh -mode batch -platform minimal -project <your XPR or DCP or nonproject mode Tcl file> -vendor_toolchain vivado -vendor_toolchain_version <e.g. 2019.1.0> -s intimeflow.tcl
+```
 
 Explanation:
 
