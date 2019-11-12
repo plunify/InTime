@@ -120,7 +120,7 @@ Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optim
  
 For Quartus, we will select the "Hotstart" recipe. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for Quartus is different from other toolchains.
 
-![Typical Recipe list](images/quickstart/recipes_vivado.png)
+![Quartus Recipes](images/quickstart/recipes_quartus.png)
 
 
 **Configure the flow properties**
@@ -132,7 +132,7 @@ Configure the following properties below.
 * Rounds: **3** (More rounds can be configured here.)
 * Concurrent Runs: **2** (This can be higher based on your machine's resources.)
 
-![Default](images/quickstart/default.png)
+![HotStart](images/quickstart/hotstart.png)
 
 if you are running on multiple machines (Private Cloud), update the flow properties to match the following:
 
