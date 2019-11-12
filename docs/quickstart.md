@@ -120,7 +120,7 @@ Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optim
  
 For Quartus, we will select the "Hotstart" recipe. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for Quartus is different from other toolchains.
 
-![Quartus Recipes](images/quickstart/recipes_quartus.png)
+![Typical Recipe list](images/quickstart/recipes_vivado.png)
 
 
 **Configure the flow properties**
