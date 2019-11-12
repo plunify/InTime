@@ -118,14 +118,14 @@ Once that is done, jump to the "[Start Optimization](quickstart.md#5-start-optim
 
 ### Using Quartus 
  
-For Quartus, we will select the "Default" recipe. This recipe generates different synthesis and implementation options. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for Quartus is different from other toolchains.
+For Quartus, we will select the "Hotstart" recipe. The purpose of this recipe is to learn about the dependencies between the design and the tool parameters through multiple rounds of compilations. Note that the list of recipes available for Quartus is different from other toolchains.
 
 ![Quartus Recipes](images/quickstart/recipes_quartus.png)
 
 
 **Configure the flow properties**
 
-For the default recipe, configure the following properties below.
+Configure the following properties below.
 
 * Run Target: **Local**
 * Runs Per Round: **20** (You can go up to 40.)
@@ -137,7 +137,7 @@ For the default recipe, configure the following properties below.
 if you are running on multiple machines (Private Cloud), update the flow properties to match the following:
 
     Run Target      : Private Cloud
-    Runs Per Round  : 10
+    Runs Per Round  : 20
     Rounds          : 1
     Concurrent Runs : 2
 
