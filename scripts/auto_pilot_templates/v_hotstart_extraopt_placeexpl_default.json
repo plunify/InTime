@@ -46,7 +46,7 @@
         {
             "id": "3",
             "name": "Placement Exploration",
-            "recipe_name": "vivado_placement_exploration",
+            "recipe_name": "placement_exploration",
             "flow": {
                 "run_target": "private_cloud",
                 "strategy_max_runtime": "24",
