@@ -1,0 +1,96 @@
+{
+    "cookbook": [{
+            "id": "1",
+            "name": "Hot Start",
+            "recipe_name": "hot_start",
+            "flow": {
+                "run_target": "private_cloud",
+                "strategy_max_runtime": "24",
+                "runs_per_round": "40",
+                "rounds": "1",
+                "concurrent_runs": "5",
+                "goal": "speed_tns",
+                "goal_based_target": "0",
+                "control_stop_when_goal_met": "true"
+            },
+            "decisions": [{
+                    "next_recipe_id": "2",
+                    "criteria": "WNS > -0.250"
+                },
+                {
+                    "next_recipe_id": "3",
+                    "criteria": "WNS <= -0.250"
+                }
+            ],
+            "max_same_recipe_attempts": "1",
+            "max_retry_if_fail": "1"
+        },
+        {
+            "id": "2",
+            "name": "Extra Opt Exploration",
+            "recipe_name": "extra_opt_exploration",
+            "flow": {
+                "run_target": "private_cloud",
+                "strategy_max_runtime": "24",
+                "runs_per_round": "15",
+                "rounds": "1",
+                "concurrent_runs": "5",
+                "goal": "speed_tns",
+                "goal_based_target": "0",
+                "control_stop_when_goal_met": "true"
+            },
+            "decisions": [],
+            "max_same_recipe_attempts": "2",
+            "max_retry_if_fail": "2"
+        },
+        {
+            "id": "3",
+            "name": "Placement Exploration",
+            "recipe_name": "vivado_placement_exploration",
+            "flow": {
+                "run_target": "private_cloud",
+                "strategy_max_runtime": "24",
+                "runs_per_round": "40",
+                "rounds": "1",
+                "concurrent_runs": "5",
+                "goal": "speed_tns",
+                "goal_based_target": "0",
+                "control_stop_when_goal_met": "true"
+            },
+            "decisions": [{
+                    "next_recipe_id": "2",
+                    "criteria": "WNS > -0.250"
+                },
+                {
+                    "next_recipe_id": "4",
+                    "criteria": "TNS < -1000"
+                }
+            ],
+            "max_same_recipe_attempts": "3",
+            "max_retry_if_fail": "3"
+        },
+        {
+            "id": "4",
+            "name": "InTime Default",
+            "recipe_name": "intime_default",
+            "flow": {
+                "run_target": "private_cloud",
+                "strategy_max_runtime": "12",
+                "runs_per_round": "20",
+                "rounds": "3",
+                "concurrent_runs": "5",
+                "goal": "speed_tns",
+                "goal_based_target": "0",
+                "control_stop_when_goal_met": "true"
+            },
+            "decisions": [{
+                    "next_recipe_id": "2",
+                    "criteria": "WNS > -0.250"
+                }
+            ],
+            "max_same_recipe_attempts": "4",
+            "max_retry_if_fail": "4"
+        }
+    ],
+    "recipe_start_id": "1"
+}
