@@ -11,3 +11,6 @@ InTime is a machine learning software that optimizes FPGA timing and performance
 
 ## Intel
 1. Please proceed to [https://github.com/plunify/InTime-Quartus](https://github.com/plunify/InTime-Quartus)
+
+## Microchip
+1. Please proceed to [https://github.com/plunify/InTime-Libero](https://github.com/plunify/InTime-Libero)
